@@ -13,7 +13,7 @@ import edu.eci.arsw.controllers.Game;
 @Controller
 public class STOMPMessagesHandler {
 
-    Game currentGame = Game.getInstance();
+/*     Game currentGame = Game.getInstance();
     int currentClient = 0;
 	
 	@Autowired
@@ -33,7 +33,7 @@ public class STOMPMessagesHandler {
 		System.out.println("A player has move!: "+pi);
         currentGame.calculate(pi);
 		msgt.convertAndSend("/topic/foreignPlayerMoves"+numPlayer, pi);
-	}
+	} */
 }
 
 

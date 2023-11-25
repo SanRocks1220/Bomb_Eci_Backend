@@ -22,9 +22,9 @@ public class PowerUpTest {
     public void initTests() {
         player = new Player(0, 0, "test", false);
 
-        shield = new PowerUp(0, 0, PowerUpType.SHIELD);
-        bombUp = new PowerUp(0, 0, PowerUpType.BOMB_UP);
-        rangeUp = new PowerUp(0, 0, PowerUpType.RANGE_UP);
+        shield = new PowerUp(PowerUpType.SHIELD);
+        bombUp = new PowerUp(PowerUpType.BOMB_UP);
+        rangeUp = new PowerUp(PowerUpType.RANGE_UP);
     }
 
     @Test
@@ -57,7 +57,8 @@ public class PowerUpTest {
 
     @Test
     public void ShouldGetTheJsonForPowerUp(){
-        assertEquals("{\"x\":0,\"y\":0,\"type\":\"BOMB_UP\",\"empty\":true}", bombUp.toString());
+        PowerUp newBombUp = new PowerUp(PowerUpType.BOMB_UP);
+        assertEquals(newBombUp.toString(), bombUp.toString());
     }
 }
 

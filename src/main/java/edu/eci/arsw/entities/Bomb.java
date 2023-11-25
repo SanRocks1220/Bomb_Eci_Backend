@@ -12,10 +12,6 @@ public class Bomb{
     }
 
     @Override
-    public Boolean isEmpty(){
-        return false;
-    }
-    @Override
     public String toString(){
         try{
             ObjectMapper objectMapper = new ObjectMapper();
