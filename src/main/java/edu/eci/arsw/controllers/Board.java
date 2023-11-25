@@ -3,16 +3,13 @@ package edu.eci.arsw.controllers;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-
-import javax.swing.text.Position;
 
 import edu.eci.arsw.entities.Block;
 import edu.eci.arsw.entities.Box;
 import edu.eci.arsw.entities.PowerUp;
 import edu.eci.arsw.model.PowerUpType;
 
-public class Board implements Runnable{
+public class Board implements Runnable {
 
     private Box[][] board;
     private static final int size = 12;
@@ -101,47 +98,21 @@ public class Board implements Runnable{
 
     private List<int[]> positionFiller() {
         List<int[]> validPositions = new ArrayList<>();
-        validPositions.add(new int[] { 4, 1 });
-        validPositions.add(new int[] { 5, 1 });
-        validPositions.add(new int[] { 6, 1 });
-        validPositions.add(new int[] { 7, 1 });
-        validPositions.add(new int[] { 3, 3 });
-        validPositions.add(new int[] { 3, 4 });
-        validPositions.add(new int[] { 3, 5 });
-        validPositions.add(new int[] { 3, 6 });
-        validPositions.add(new int[] { 3, 7 });
-        validPositions.add(new int[] { 3, 8 });
-        validPositions.add(new int[] { 4, 3 });
-        validPositions.add(new int[] { 5, 3 });
-        validPositions.add(new int[] { 6, 3 });
-        validPositions.add(new int[] { 7, 3 });
-        validPositions.add(new int[] { 8, 3 });
-        validPositions.add(new int[] { 4, 8 });
-        validPositions.add(new int[] { 5, 8 });
-        validPositions.add(new int[] { 6, 8 });
-        validPositions.add(new int[] { 7, 8 });
-        validPositions.add(new int[] { 8, 8 });
-        validPositions.add(new int[] { 8, 4 });
-        validPositions.add(new int[] { 8, 5 });
-        validPositions.add(new int[] { 8, 6 });
-        validPositions.add(new int[] { 8, 7 });
-        validPositions.add(new int[] { 4, 4 });
-        validPositions.add(new int[] { 4, 5 });
-        validPositions.add(new int[] { 4, 6 });
-        validPositions.add(new int[] { 4, 7 });
-        validPositions.add(new int[] { 7, 4 });
-        validPositions.add(new int[] { 7, 5 });
-        validPositions.add(new int[] { 7, 6 });
-        validPositions.add(new int[] { 7, 7 });
-        validPositions.add(new int[] { 5, 4 });
-        validPositions.add(new int[] { 6, 4 });
-        validPositions.add(new int[] { 7, 4 });
-        validPositions.add(new int[] { 5, 7 });
-        validPositions.add(new int[] { 6, 7 });
-        validPositions.add(new int[] { 4, 10 });
-        validPositions.add(new int[] { 5, 10 });
-        validPositions.add(new int[] { 6, 10 });
-        validPositions.add(new int[] { 7, 10 });
+
+        int[][] positions = {
+                { 4, 1 }, { 5, 1 }, { 6, 1 }, { 7, 1 }, { 3, 3 }, { 3, 4 },
+                { 3, 5 }, { 3, 6 }, { 3, 7 }, { 3, 8 }, { 4, 3 }, { 5, 3 },
+                { 6, 3 }, { 7, 3 }, { 8, 3 }, { 4, 8 }, { 5, 8 }, { 6, 8 },
+                { 7, 8 }, { 8, 8 }, { 8, 4 }, { 8, 5 }, { 8, 6 }, { 8, 7 },
+                { 4, 4 }, { 4, 5 }, { 4, 6 }, { 4, 7 }, { 7, 4 }, { 7, 5 },
+                { 7, 6 }, { 7, 7 }, { 5, 4 }, { 6, 4 }, { 7, 4 }, { 5, 7 },
+                { 6, 7 }, { 4, 10 }, { 5, 10 }, { 6, 10 }, { 7, 10 }
+        };
+
+        for (int[] position : positions) {
+            validPositions.add(position);
+        }
+
         return validPositions;
     }
 
