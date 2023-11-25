@@ -1,5 +1,7 @@
 package edu.eci.arsw;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,5 +40,10 @@ public class PlayerTest {
     @Test
     public void testMoveUp() {
 
+    }
+
+    @Test
+    public void ShouldGetMeTheJson(){
+        assertEquals("{\"name\":\"FixedName1\",\"kills\":0,\"bombs\":1,\"explosionRadius\":1,\"shields\":0,\"board\":null,\"immortal\":false,\"xposition\":1,\"alive\":true,\"yposition\":1}", player1.toString());
     }
 }
