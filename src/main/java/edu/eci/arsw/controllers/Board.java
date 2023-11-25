@@ -147,10 +147,8 @@ public class Board implements Runnable {
             jsonBoard = objectMapper.writeValueAsString(board);
             return jsonBoard;
         } catch (JsonProcessingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
             return null;
         }
     }
-    
+
 }
