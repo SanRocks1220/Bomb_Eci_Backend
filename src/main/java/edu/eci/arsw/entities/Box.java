@@ -9,16 +9,21 @@ public class Box {
     protected int y;
     protected boolean hasPowerUp;
     protected PowerUp ownPowerUp;   
-    protected boolean hasPlayer;
-    protected Player ownPlayer;
-    protected boolean hasBomb;
-    protected Bomb ownBomb;
+    private boolean hasPlayer;
+    private Player ownPlayer;
+    private boolean hasBomb;
+    private Bomb ownBomb;
+    private int xPositionBomb;
+    private int yPositionBomb;
+    private Player bombOwner;
     protected boolean canMove;
+    protected boolean destroyable;
 
     public Box(int x, int y) {
         this.x = x;
         this.y = y;
         canMove = true;
+        destroyable = false;
     }
 
     public void setPowerUp(PowerUp pu) {
@@ -30,18 +35,30 @@ public class Box {
         canMove = false;
         hasPlayer = true;
         ownPlayer = player;
+        if(hasPowerUp){
+            ownPowerUp.applyEffect(player);
+            hasPowerUp = false;
+        }
     }
 
-    public void setBomb(Bomb bomb) {
-        canMove = false;
+    public void setBomb(int xPosition, int yPosition, Player owner) {
         hasBomb = true;
-        ownBomb = bomb;
+        xPositionBomb = xPosition;
+        yPositionBomb = yPosition;
+        bombOwner = owner;
     }
 
     public void freeBox() {
-        canMove = true;
-        hasPlayer = false;
-        hasBomb = false;
+        if(hasPlayer == true && hasBomb == true){
+            hasPlayer = false;
+            ownBomb = new Bomb(xPositionBomb, yPositionBomb, bombOwner);
+        }
+        else {
+            canMove = true;
+            hasPlayer = false;
+            hasBomb = false;
+        }
+        
     }
 
     public int getX() {
@@ -64,6 +81,18 @@ public class Box {
         return canMove;
     }
 
+    public Player getPlayer() {
+        return ownPlayer;
+    }
+
+    public boolean hasPlayer() {
+        return hasPlayer;
+    }
+
+    public boolean isDestroyable() {
+        return destroyable;
+    }
+
     @Override
     public String toString(){
         try{
@@ -74,9 +103,4 @@ public class Box {
             return null;
         }
     }
-    
-
-
-
-    
 }

@@ -13,7 +13,7 @@ public class PowerUp{
         this.type = type;
     }
 
-    public void aplyEffect(Player player) {
+    public void applyEffect(Player player) {
         switch (type) {
             case SHIELD:
                 player.gainShields();

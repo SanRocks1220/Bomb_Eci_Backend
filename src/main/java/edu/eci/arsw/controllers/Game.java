@@ -26,17 +26,17 @@ public class Game {
     players = new ArrayList<>();
     switch (gameMode) {
       case SINGLE_PLAYER:
-        player1 = new Player(1, 1, "FixedName1", false);
+        player1 = new Player(1, 1, "FixedName1", false, 0);
         player1.setBoard(board);
 
         players.add(player1);
         break;
 
       case MULTI_PLAYER:
-        player1 = new Player(1, 1, "FixedName1", false);
-        player2 = new Player(1, 10, "FixedName2", false);
-        player3 = new Player(10, 1, "FixedName3", false);
-        player4 = new Player(10, 10, "FixedName4", false);
+        player1 = new Player(1, 1, "FixedName1", false, 0);
+        player2 = new Player(1, 10, "FixedName2", false, 0);
+        player3 = new Player(10, 1, "FixedName3", false, 0);
+        player4 = new Player(10, 10, "FixedName4", false, 0);
 
         player1.setBoard(board);
         player2.setBoard(board);
