@@ -12,12 +12,12 @@ import edu.eci.arsw.controllers.Game;
 
 @Controller
 public class STOMPMessagesHandler {
-
-/*     Game currentGame = Game.getInstance();
     int currentClient = 0;
 	
 	@Autowired
 	SimpMessagingTemplate msgt;
+
+	/*
 
     @MessageMapping("/app/getBombDaEciInstance")
     @SendToUser("/queue/reply")

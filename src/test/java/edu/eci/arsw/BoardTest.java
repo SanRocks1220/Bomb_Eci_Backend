@@ -1,6 +1,7 @@
 package edu.eci.arsw;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -25,6 +26,14 @@ public class BoardTest {
         Board board = new Board();
         int shields = board.getShield();
         assertEquals(0, shields);
+    }
+
+
+    @Test
+    public void ShouldReturnTheJsonOfTheBoard(){
+        Board board = new Board();
+        String jsonMapped = board.getBoardJsonMode();
+        assertTrue(jsonMapped.contains("[[{\"x\":0,\"y\":0,\"destroyable\":false,\"empty\":false}"));
     }
 
 
