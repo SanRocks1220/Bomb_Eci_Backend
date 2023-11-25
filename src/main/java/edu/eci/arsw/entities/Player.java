@@ -1,5 +1,8 @@
 package edu.eci.arsw.entities;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import edu.eci.arsw.controllers.Board;
 
 public class Player{
@@ -68,6 +71,7 @@ public class Player{
 
     public void setBoard(Board board) {
         this.board = board;
+        this.board.getBox(getXPosition(), getYPosition()).setPlayer(this);
     }
 
     public Boolean isImmortal() {
@@ -123,27 +127,52 @@ public class Player{
 
     public void moveRight() {
         if (board.getBox(getXPosition(), getYPosition()+1).isEmpty()){
+            freeBox();
             yPosition++;
+            occupyBox();
         }
     }
 
     public void moveLeft() {
         if (board.getBox(getXPosition(), getYPosition()-1).isEmpty()){
+            freeBox();
             yPosition--;
+            occupyBox();
         }
     }
 
     public void moveUp() {
         if (board.getBox(getXPosition()-1, getYPosition()).isEmpty()){
+            freeBox();
             xPosition--;
+            occupyBox();
         }
     }
 
     public void moveDown() {
         if (board.getBox(getXPosition()+1, getYPosition()).isEmpty()){
+            freeBox();
             xPosition++;
+            occupyBox();
+        }
+    }
+    
+    @Override
+    public String toString(){
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(this);
+        }catch(JsonProcessingException e){
+            e.printStackTrace();
+            return null;
         }
     }
 
-    
+    private void freeBox() {
+        board.getBox(getXPosition(), getYPosition()).freeBox();
+    }
+
+    private void occupyBox() {
+        board.getBox(getXPosition(), getYPosition()).setPlayer(this);
+    }
 }

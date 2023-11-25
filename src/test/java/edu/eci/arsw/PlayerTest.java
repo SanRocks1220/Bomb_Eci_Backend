@@ -109,4 +109,9 @@ public class PlayerTest {
         assertEquals(2,player1.getXPosition());
         assertEquals(1,player1.getYPosition());
     }
+
+    @Test
+    public void ShouldGetMeTheJson(){
+        assertEquals("{\"name\":\"FixedName1\",\"kills\":0,\"bombs\":1,\"explosionRadius\":1,\"shields\":0,\"board\":null,\"immortal\":false,\"xposition\":1,\"alive\":true,\"yposition\":1}", player1.toString());
+    }
 }

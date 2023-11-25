@@ -82,20 +82,19 @@ public class Board implements Runnable {
                     // Es una casilla destruible, coloca el boost correspondiente si aún hay
                     // disponibles.
                     if (bomb > 0) {
-                        box.setPowerBoost(new PowerUp(x, y, PowerUpType.BOMB_UP));
+                        box.setPowerUp(new PowerUp(PowerUpType.BOMB_UP));
                         bomb--;
                     } else if (radius > 0) {
-                        box.setPowerBoost(new PowerUp(x, y, PowerUpType.RANGE_UP));
+                        box.setPowerUp(new PowerUp(PowerUpType.RANGE_UP));
                         radius--;
                     } else if (shield > 0) {
-                        box.setPowerBoost(new PowerUp(x, y, PowerUpType.SHIELD));
+                        box.setPowerUp(new PowerUp(PowerUpType.SHIELD));
                         shield--;
                     }
                 }
             }
         }
     }
-
     private List<int[]> positionFiller() {
         List<int[]> validPositions = new ArrayList<>();
 
