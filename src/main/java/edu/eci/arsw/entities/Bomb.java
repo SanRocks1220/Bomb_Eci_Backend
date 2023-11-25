@@ -1,17 +1,11 @@
 package edu.eci.arsw.entities;
 
-public class Bomb extends Box{
+public class Bomb{
 
     private int timer;
 
-    public Bomb(int x, int y) {
-        super(x, y);
+    public Bomb() {
         timer = 3000;
-    }
-
-    @Override
-    public Boolean isEmpty(){
-        return false;
     }
     
 }
