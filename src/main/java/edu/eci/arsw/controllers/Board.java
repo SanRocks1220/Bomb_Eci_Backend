@@ -98,7 +98,6 @@ public class Board implements Runnable{
             }
         }
     }
-
     private List<int[]> positionFiller() {
         List<int[]> validPositions = new ArrayList<>();
         validPositions.add(new int[] { 4, 1 });
