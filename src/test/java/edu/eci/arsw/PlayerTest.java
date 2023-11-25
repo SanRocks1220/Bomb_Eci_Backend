@@ -112,6 +112,6 @@ public class PlayerTest {
 
     @Test
     public void ShouldGetMeTheJson(){
-        assertEquals("{\"name\":\"FixedName1\",\"kills\":0,\"bombs\":1,\"explosionRadius\":1,\"shields\":0,\"board\":null,\"immortal\":false,\"xposition\":1,\"alive\":true,\"yposition\":1}", player1.toString());
+        assertEquals("{\"name\":\"FixedName1\",\"kills\":0,\"bombs\":1,\"explosionRadius\":1,\"shields\":0,\"board\":{\"bomb\":0,\"radius\":0,\"shield\":0},\"alive\":true,\"xposition\":1,\"yposition\":1,\"immortal\":false}", player1.toString());
     }
 }
