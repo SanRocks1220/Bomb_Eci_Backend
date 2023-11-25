@@ -1,5 +1,8 @@
 package edu.eci.arsw.entities;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class Box {
 
     protected int x;
@@ -36,4 +39,19 @@ public class Box {
     public Boolean isEmpty() {
         return true;
     }
+
+    @Override
+    public String toString(){
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(this);
+        }catch(JsonProcessingException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+    
 }
