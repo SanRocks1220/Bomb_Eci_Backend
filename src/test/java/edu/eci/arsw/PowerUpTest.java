@@ -20,11 +20,11 @@ public class PowerUpTest {
 
     @Before
     public void initTests() {
-        player = new Player(0, 0, "test", false);
+        player = new Player(0, 0, "test", false, 0);
 
-        shield = new PowerUp(0, 0, PowerUpType.SHIELD);
-        bombUp = new PowerUp(0, 0, PowerUpType.BOMB_UP);
-        rangeUp = new PowerUp(0, 0, PowerUpType.RANGE_UP);
+        shield = new PowerUp(PowerUpType.SHIELD);
+        bombUp = new PowerUp(PowerUpType.BOMB_UP);
+        rangeUp = new PowerUp(PowerUpType.RANGE_UP);
     }
 
     @Test
@@ -37,22 +37,28 @@ public class PowerUpTest {
     @Test
     public void testAplyShield() {
         int originalShield = player.getShields();
-        shield.aplyEffect(player);
+        shield.applyEffect(player);
         assertEquals(originalShield + 1, player.getShields());
     }
 
     @Test
     public void testAplyBombUp() {
         int originalBombs = player.getBombs();
-        bombUp.aplyEffect(player);
+        bombUp.applyEffect(player);
         assertEquals(originalBombs + 1, player.getBombs());
     }
 
     @Test
     public void testAplyRangeUp() {
         int originalRadius = player.getExplosionRadius();
-        rangeUp.aplyEffect(player);
+        rangeUp.applyEffect(player);
         assertEquals(originalRadius + 1, player.getExplosionRadius());
+    }
+
+    @Test
+    public void ShouldGetTheJsonForPowerUp(){
+        PowerUp newBombUp = new PowerUp(PowerUpType.BOMB_UP);
+        assertEquals(newBombUp.toString(), bombUp.toString());
     }
 }
 

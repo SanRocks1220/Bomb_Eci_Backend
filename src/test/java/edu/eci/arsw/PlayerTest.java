@@ -1,11 +1,24 @@
 package edu.eci.arsw;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.eci.arsw.controllers.Board;
+import edu.eci.arsw.controllers.Game;
 import edu.eci.arsw.entities.Player;
+import edu.eci.arsw.model.GameMode;
 
 public class PlayerTest {
+
+    public Game game;
+    public GameMode gameMode;
+    public Board board;
+
+    public ArrayList<Player> players;
 
     public Player player1;
     public Player player2;
@@ -14,29 +27,91 @@ public class PlayerTest {
 
     @Before
     public void initTests() {
-        player1 = new Player(1, 1, "FixedName1", false);
-        player2 = new Player(1, 10, "FixedName2", false);
-        player3 = new Player(10, 1, "FixedName3", false);
-        player4 = new Player(10, 10, "FixedName4", false);
+        game = new Game();
+        gameMode = GameMode.MULTI_PLAYER;
+        game.orchest(gameMode);
+
+        players = game.getPlayers();
+        player1 = players.get(0);
+        player2 = players.get(1);
+        player3 = players.get(2);
+        player4 = players.get(3);
+        
     }
 
     @Test
     public void testMoveDown() {
+        for (Player player: players){
+            player.moveDown();
+        }
 
+        assertEquals(2,player1.getXPosition());
+        assertEquals(2,player2.getXPosition());
+        assertEquals(10,player3.getXPosition());
+        assertEquals(10,player4.getXPosition());
     }
 
     @Test
     public void testMoveLeft() {
+        for (Player player: players){
+            player.moveLeft();
+        }
+
+        assertEquals(1,player1.getYPosition());
+        assertEquals(9,player2.getYPosition());
+        assertEquals(1,player3.getYPosition());
+        assertEquals(9,player4.getYPosition());
 
     }
 
     @Test
     public void testMoveRight() {
+        for (Player player: players){
+            player.moveRight();
+        }
 
+        assertEquals(2,player1.getYPosition());
+        assertEquals(10,player2.getYPosition());
+        assertEquals(2,player3.getYPosition());
+        assertEquals(10,player4.getYPosition());
     }
 
     @Test
     public void testMoveUp() {
+        for (Player player: players){
+            player.moveUp();
+        }
 
+        assertEquals(1,player1.getXPosition());
+        assertEquals(1,player2.getXPosition());
+        assertEquals(9,player3.getXPosition());
+        assertEquals(9,player4.getXPosition());
+    }
+
+    @Test
+    public void testlayer1Movement() {
+        for(int i = 0; i < 4; i++){
+            player1.moveRight();
+        }
+
+        for(int i = 0; i < 2; i++){
+            player1.moveUp();
+        }
+
+        for(int i = 0; i < 3; i++){
+            player1.moveLeft();
+        }
+
+        for(int i = 0; i < 1; i++){
+            player1.moveDown();
+        }
+
+        assertEquals(2,player1.getXPosition());
+        assertEquals(1,player1.getYPosition());
+    }
+
+    @Test
+    public void ShouldGetMeTheJson(){
+        assertEquals("{\"name\":\"FixedName1\",\"kills\":0,\"bombs\":1,\"explosionRadius\":1,\"shields\":0,\"board\":{\"bomb\":0,\"radius\":0,\"shield\":0},\"alive\":true,\"xposition\":1,\"yposition\":1,\"immortal\":false}", player1.toString());
     }
 }

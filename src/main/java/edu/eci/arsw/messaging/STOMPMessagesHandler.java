@@ -11,7 +11,6 @@ import edu.eci.arsw.model.PlayerInteraction;
 
 @Controller
 public class STOMPMessagesHandler {
-
 	@Autowired
 	SimpMessagingTemplate msgt;
 
@@ -26,8 +25,4 @@ public class STOMPMessagesHandler {
 	public void handlePlayerMovesEvent(PlayerInteraction pi,@DestinationVariable String numPlayer) throws Exception {
 		System.out.println("A player has move!: ");
 	}
-
-	
 }
-
-

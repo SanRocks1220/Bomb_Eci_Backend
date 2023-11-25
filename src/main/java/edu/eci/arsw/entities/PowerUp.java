@@ -1,17 +1,19 @@
 package edu.eci.arsw.entities;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import edu.eci.arsw.model.PowerUpType;
 
-public class PowerUp extends Box{
+public class PowerUp{
 
     private PowerUpType type;
 
-    public PowerUp(int x, int y, PowerUpType type) {
-        super(x, y);
+    public PowerUp(PowerUpType type) {
         this.type = type;
     }
 
-    public void aplyEffect(Player player) {
+    public void applyEffect(Player player) {
         switch (type) {
             case SHIELD:
                 player.gainShields();
@@ -28,5 +30,15 @@ public class PowerUp extends Box{
     public PowerUpType getType() {
         return type;
     }
-
+    
+    @Override
+    public String toString(){
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(this);
+        }catch(JsonProcessingException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
