@@ -5,6 +5,10 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.eci.arsw.entities.Player;
+import edu.eci.arsw.entities.PowerUp;
+import edu.eci.arsw.model.PowerUpType;
+
 public class PowerUpTest {
 
     Player player;

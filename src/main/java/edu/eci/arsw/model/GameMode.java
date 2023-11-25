@@ -1,4 +1,4 @@
-package edu.eci.arsw;
+package edu.eci.arsw.model;
 
 public enum GameMode {
     SINGLE_PLAYER,

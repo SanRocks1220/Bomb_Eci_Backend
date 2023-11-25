@@ -3,6 +3,8 @@ package edu.eci.arsw;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.eci.arsw.entities.Player;
+
 public class PlayerTest {
 
     public Player player1;

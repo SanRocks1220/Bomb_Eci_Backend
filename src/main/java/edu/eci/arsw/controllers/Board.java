@@ -1,4 +1,4 @@
-package edu.eci.arsw;
+package edu.eci.arsw.controllers;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,13 +7,19 @@ import java.util.Random;
 
 import javax.swing.text.Position;
 
-public class Board {
+import edu.eci.arsw.entities.Block;
+import edu.eci.arsw.entities.Box;
+import edu.eci.arsw.entities.PowerUp;
+import edu.eci.arsw.model.PowerUpType;
+
+public class Board implements Runnable{
 
     private Box[][] board;
     private static final int size = 12;
     private int bomb = 6;
     private int radius = 8;
     private int shield = 4;
+    private Object lock;
 
     public Board() {
         board = new Box[size][size];
@@ -153,5 +159,11 @@ public class Board {
 
     public Box getBox(int xPosition, int yPosition) {
         return board[xPosition][yPosition];
+    }
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
 }

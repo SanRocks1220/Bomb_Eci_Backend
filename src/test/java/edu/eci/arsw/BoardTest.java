@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import edu.eci.arsw.controllers.Board;
+
 public class BoardTest {
     
     @Test

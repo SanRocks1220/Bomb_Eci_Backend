@@ -1,4 +1,6 @@
-package edu.eci.arsw;
+package edu.eci.arsw.entities;
+
+import edu.eci.arsw.model.PowerUpType;
 
 public class PowerUp extends Box{
 
