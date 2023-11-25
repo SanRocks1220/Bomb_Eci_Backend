@@ -20,18 +20,28 @@ public class Player{
     private int explosionRadius;
     private int shields;
     private Board board;
+    private int charachter;
 
-    public Player(int xPosition, int yPosition, String name, boolean isImmortal) {
+    public Player(int xPosition, int yPosition, String name, boolean isImmortal, int charachter) {
         setXPosition(xPosition);
         setYPosition(yPosition);
         setName(name);;
         setImmortal(isImmortal);
         setAlive(true);
+        setCharachter(charachter);
 
         kills = 0;
         bombs = 1;
         explosionRadius = 1;
         shields = 0;
+    }
+
+    public int getCharachter() {
+        return charachter;
+    }
+
+    public void setCharachter(int charachter) {
+        this.charachter = charachter;
     }
 
     public int getXPosition() {
@@ -114,7 +124,7 @@ public class Player{
         shields = (shields<1)?shields+1:shields;
     }
 
-    public void dead() {
+    public void die() {
         if(!isImmortal){
             if(shields>0){
                 shields--;
@@ -127,7 +137,7 @@ public class Player{
 
     public void moveRight() {
         if (board.getBox(getXPosition(), getYPosition()+1).isEmpty()){
-            freeBox();
+            freeBox(xPosition, yPosition);
             yPosition++;
             occupyBox();
         }
@@ -135,7 +145,7 @@ public class Player{
 
     public void moveLeft() {
         if (board.getBox(getXPosition(), getYPosition()-1).isEmpty()){
-            freeBox();
+            freeBox(xPosition, yPosition);
             yPosition--;
             occupyBox();
         }
@@ -143,7 +153,7 @@ public class Player{
 
     public void moveUp() {
         if (board.getBox(getXPosition()-1, getYPosition()).isEmpty()){
-            freeBox();
+            freeBox(xPosition, yPosition);
             xPosition--;
             occupyBox();
         }
@@ -151,7 +161,7 @@ public class Player{
 
     public void moveDown() {
         if (board.getBox(getXPosition()+1, getYPosition()).isEmpty()){
-            freeBox();
+            freeBox(xPosition, yPosition);
             xPosition++;
             occupyBox();
         }
@@ -168,11 +178,22 @@ public class Player{
         }
     }
 
-    private void freeBox() {
+    public void freeBox(int xPosition, int yPosition) {
         board.getBox(getXPosition(), getYPosition()).freeBox();
     }
 
     private void occupyBox() {
         board.getBox(getXPosition(), getYPosition()).setPlayer(this);
+    }
+
+    public void putBomb() {
+        if(bombs > 0){
+            bombs--;
+            board.getBox(xPosition, yPosition).setBomb(xPosition, yPosition, this);
+        }
+    }
+
+    public void explode(int xPosition, int yPosition) {
+        board.explode(xPosition, yPosition, explosionRadius);
     }
 }

@@ -136,4 +136,55 @@ public class Board implements Runnable {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
+
+    public void explode(int xPosition, int yPosition, int explosionRadius) {
+        int i = xPosition;
+        int j = yPosition;
+        //Up
+        for(int r = explosionRadius; r > 0; r--) {
+            if (i-r > 0){
+                if(getBox(i-r, j).hasPlayer()) {
+                    getBox(i-r, j).getPlayer().die();
+                    break;
+                }
+                else if(getBox(i-r, j).isDestroyable()) {
+                    board[i-r][j] = new Box(i-r, j);
+                    break;
+                }
+            }
+        }
+        //Left
+        for(int r = explosionRadius; r > 0; r--) {
+            if (j-r > 0){
+                if(getBox(i, j-r).hasPlayer()) {
+                    getBox(i, j-r).getPlayer().die();
+                }
+                else if(getBox(i, j-r).isDestroyable()) {
+                    board[i][j-r] = new Box(i, j-r);
+                }
+            }
+        }
+        //Right
+        for(int r = explosionRadius; r > 0; r--) {
+            if (j+r < size-1){
+                if(getBox(i, j+r).hasPlayer()) {
+                    getBox(i, j+r).getPlayer().die();
+                }
+                else if(getBox(i, j+r).isDestroyable()) {
+                    board[i][j+r] = new Box(i, j+r);
+                }
+            }
+        }
+        //Down
+        for(int r = explosionRadius; r > 0; r--) {
+            if (i+r < size-1){
+                if(getBox(i+r, j).hasPlayer()) {
+                    getBox(i+r, j).getPlayer().die();
+                }
+                else if(getBox(i+r, j).isDestroyable()) {
+                    board[i+r][j] = new Box(i+r, j);
+                }
+            }
+        }
+    }
 }
