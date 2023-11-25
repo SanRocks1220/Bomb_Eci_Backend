@@ -54,6 +54,11 @@ public class PowerUpTest {
         rangeUp.aplyEffect(player);
         assertEquals(originalRadius + 1, player.getExplosionRadius());
     }
+
+    @Test
+    public void ShouldGetTheJsonForPowerUp(){
+        assertEquals("{\"x\":0,\"y\":0,\"type\":\"BOMB_UP\",\"empty\":true}", bombUp.toString());
+    }
 }
 
 
