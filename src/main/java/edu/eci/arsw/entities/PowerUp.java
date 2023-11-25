@@ -2,12 +2,11 @@ package edu.eci.arsw.entities;
 
 import edu.eci.arsw.model.PowerUpType;
 
-public class PowerUp extends Box{
+public class PowerUp{
 
     private PowerUpType type;
 
-    public PowerUp(int x, int y, PowerUpType type) {
-        super(x, y);
+    public PowerUp(PowerUpType type) {
         this.type = type;
     }
 
