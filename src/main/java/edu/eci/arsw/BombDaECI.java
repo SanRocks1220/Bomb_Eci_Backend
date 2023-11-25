@@ -14,7 +14,7 @@ public class BombDaECI {
 	private static BombDaECI object;
 	private HashMap<Integer, Game> openGames;
 
-	private BombDaECI(){
+	public BombDaECI(){
     }
 
 	public synchronized static BombDaECI getInstance() {

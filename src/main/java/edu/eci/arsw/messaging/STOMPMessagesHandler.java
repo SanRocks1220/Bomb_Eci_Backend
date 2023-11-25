@@ -8,32 +8,26 @@ import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
 import edu.eci.arsw.model.PlayerInteraction;
-import edu.eci.arsw.controllers.Game;
 
 @Controller
 public class STOMPMessagesHandler {
 
-    Game currentGame = Game.getInstance();
-    int currentClient = 0;
-	
 	@Autowired
 	SimpMessagingTemplate msgt;
 
     @MessageMapping("/app/getBombDaEciInstance")
-    @SendToUser("/queue/reply")
 	public void handleBoardInstance() throws Exception {
-		System.out.println("A client want to get a board instance!: "+currentClient);
-        board = currentGame.getBoard();
-		msgt.convertAndSend("/topic/foreignPlayerMoves", currentClient, board);
+		System.out.println("A client wants to get a board instance!");
+		msgt.convertAndSend("/topic/getBombDaEciInstance", "Loud and Clear");
 	}
     
 	@MessageMapping("/playerInteraction.{numPlayer}")
     @SendToUser("/queue/reply")
 	public void handlePlayerMovesEvent(PlayerInteraction pi,@DestinationVariable String numPlayer) throws Exception {
-		System.out.println("A player has move!: "+pi);
-        currentGame.calculate(pi);
-		msgt.convertAndSend("/topic/foreignPlayerMoves"+numPlayer, pi);
+		System.out.println("A player has move!: ");
 	}
+
+	
 }
 
 
