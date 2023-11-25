@@ -13,8 +13,8 @@ public class BoxTest {
     @Test
     public void ShouldGetMeTheJson(){
         Box box = new Box(1, 2);
-        PowerUp powerUp = new PowerUp(1, 2, PowerUpType.BOMB_UP);
-        box.setPowerBoost(powerUp);
+        PowerUp powerUp = new PowerUp(PowerUpType.BOMB_UP);
+        box.setPowerUp(powerUp);
         assertEquals("{\"x\":1,\"y\":2,\"empty\":true}", box.toString());
     }
     

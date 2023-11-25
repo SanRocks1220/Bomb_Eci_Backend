@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import edu.eci.arsw.entities.Block;
 import edu.eci.arsw.entities.Box;
 import edu.eci.arsw.entities.PowerUp;
@@ -136,4 +139,16 @@ public class Board implements Runnable {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
+
+    public String getBoardJsonMode(){
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonBoard;
+        try {
+            jsonBoard = objectMapper.writeValueAsString(board);
+            return jsonBoard;
+        } catch (JsonProcessingException e) {
+            return null;
+        }
+    }
+
 }
