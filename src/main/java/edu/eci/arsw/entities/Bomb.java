@@ -3,12 +3,11 @@ package edu.eci.arsw.entities;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Bomb extends Box{
+public class Bomb{
 
     private int timer;
 
-    public Bomb(int x, int y) {
-        super(x, y);
+    public Bomb() {
         timer = 3000;
     }
 
@@ -25,6 +24,5 @@ public class Bomb extends Box{
             e.printStackTrace();
             return null;
         }
-    }
-    
+    }    
 }
