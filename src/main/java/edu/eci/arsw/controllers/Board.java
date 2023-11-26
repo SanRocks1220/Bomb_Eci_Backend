@@ -80,7 +80,7 @@ public class Board implements Runnable {
                 int y = position[1];
                 Box box = board[x][y];
 
-                if (box instanceof Block && ((Block) box).isDestroyable()) {
+                if ((box instanceof Block && box.isDestroyable()) || !box.hasPowerUp()) {
                     // Es una casilla destruible, coloca el boost correspondiente si aún hay
                     // disponibles.
                     if (bomb > 0) {
