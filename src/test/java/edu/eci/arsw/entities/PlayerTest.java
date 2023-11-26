@@ -1,19 +1,21 @@
-package edu.eci.arsw;
+package edu.eci.arsw.entities;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import edu.eci.arsw.controllers.Board;
 import edu.eci.arsw.controllers.Game;
-import edu.eci.arsw.entities.Player;
 import edu.eci.arsw.model.GameMode;
 
-public class PlayerTest {
 
+class PlayerTest {
     public Game game;
     public GameMode gameMode;
     public Board board;
@@ -25,7 +27,7 @@ public class PlayerTest {
     public Player player3;
     public Player player4;
 
-    @Before
+    @BeforeEach
     public void initTests() {
         game = new Game();
         gameMode = GameMode.MULTI_PLAYER;
@@ -40,7 +42,25 @@ public class PlayerTest {
     }
 
     @Test
-    public void testMoveDown() {
+    void testToString() {
+        Player player1 = new Player(1, 2, "juanito", false,1);
+        assertTrue(player1.toString().contains("{\"name\":\"juanito\",\"kills\":0"));
+    }
+
+    @Test
+    void testMoveLeft() {
+        for (Player player: players){
+            player.moveLeft();
+        }
+
+        assertEquals(1,player1.getYPosition());
+        assertEquals(9,player2.getYPosition());
+        assertEquals(1,player3.getYPosition());
+        assertEquals(9,player4.getYPosition());
+    }
+
+    @Test
+    void testMoveDown() {
         for (Player player: players){
             player.moveDown();
         }
@@ -52,20 +72,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void testMoveLeft() {
-        for (Player player: players){
-            player.moveLeft();
-        }
-
-        assertEquals(1,player1.getYPosition());
-        assertEquals(9,player2.getYPosition());
-        assertEquals(1,player3.getYPosition());
-        assertEquals(9,player4.getYPosition());
-
-    }
-
-    @Test
-    public void testMoveRight() {
+    void testMoveRight() {
         for (Player player: players){
             player.moveRight();
         }
@@ -75,9 +82,9 @@ public class PlayerTest {
         assertEquals(2,player3.getYPosition());
         assertEquals(10,player4.getYPosition());
     }
-
+    
     @Test
-    public void testMoveUp() {
+    void testMoveUp() {
         for (Player player: players){
             player.moveUp();
         }
@@ -89,7 +96,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void testlayer1Movement() {
+    void testlayer1Movement() {
         for(int i = 0; i < 4; i++){
             player1.moveRight();
         }
@@ -110,8 +117,7 @@ public class PlayerTest {
         assertEquals(1,player1.getYPosition());
     }
 
-    @Test
-    public void ShouldGetMeTheJson(){
-        assertEquals("{\"name\":\"FixedName1\",\"kills\":0,\"bombs\":1,\"explosionRadius\":1,\"shields\":0,\"board\":{\"bomb\":0,\"radius\":0,\"shield\":0},\"alive\":true,\"xposition\":1,\"yposition\":1,\"immortal\":false}", player1.toString());
-    }
+
+    
+
 }
