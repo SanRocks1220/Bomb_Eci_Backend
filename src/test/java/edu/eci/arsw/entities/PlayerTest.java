@@ -15,7 +15,7 @@ import edu.eci.arsw.controllers.Game;
 import edu.eci.arsw.model.GameMode;
 
 
-public class PlayerTest {
+class PlayerTest {
     public Game game;
     public GameMode gameMode;
     public Board board;
@@ -48,7 +48,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void testMoveLeft() {
+    void testMoveLeft() {
         for (Player player: players){
             player.moveLeft();
         }
@@ -60,7 +60,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void testMoveDown() {
+    void testMoveDown() {
         for (Player player: players){
             player.moveDown();
         }
@@ -72,7 +72,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void testMoveRight() {
+    void testMoveRight() {
         for (Player player: players){
             player.moveRight();
         }
@@ -84,7 +84,7 @@ public class PlayerTest {
     }
     
     @Test
-    public void testMoveUp() {
+    void testMoveUp() {
         for (Player player: players){
             player.moveUp();
         }
@@ -96,7 +96,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void testlayer1Movement() {
+    void testlayer1Movement() {
         for(int i = 0; i < 4; i++){
             player1.moveRight();
         }

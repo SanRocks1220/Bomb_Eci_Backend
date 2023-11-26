@@ -24,7 +24,7 @@ public class Bomb implements Runnable{
             return objectMapper.writeValueAsString(this);
         }catch(JsonProcessingException e){
             e.printStackTrace();
-            return null;
+            return "";
         }
     }
 

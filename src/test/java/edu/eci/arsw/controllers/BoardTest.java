@@ -1,12 +1,11 @@
 package edu.eci.arsw.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-public class BoardTest {
+class BoardTest {
     @Test
     void testExplode() {
         Board board = new Board(); // Ajusta según tu implementación
@@ -37,7 +36,6 @@ public class BoardTest {
         Board board = new Board();
         int xPosition = 1;
         int yPosition = 1;
-        int explosionRadius = 1;
 
         board.getBox(xPosition, yPosition);
 

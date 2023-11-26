@@ -49,7 +49,7 @@ public class Box {
     }
 
     public void freeBox() {
-        if(hasPlayer == true && hasBomb == true){
+        if(hasPlayer && hasBomb){
             hasPlayer = false;
             ownBomb = new Bomb(xPositionBomb, yPositionBomb, bombOwner);
         }
@@ -89,6 +89,14 @@ public class Box {
         return hasPlayer;
     }
 
+    public boolean hasBomb(){
+        return hasBomb;
+    }
+
+    public boolean hasPowerUp(){
+        return hasPowerUp;
+    }
+
     public boolean isDestroyable() {
         return destroyable;
     }
@@ -100,7 +108,7 @@ public class Box {
             return objectMapper.writeValueAsString(this);
         }catch(JsonProcessingException e){
             e.printStackTrace();
-            return null;
+            return "";
         }
     }
 }
