@@ -168,13 +168,17 @@ public class Player{
     }
     
     @Override
-    public String toString(){
-        try{
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(this);
-        }catch(JsonProcessingException e){
+    public String toString() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String callBack = "{player: {xPosition:" + xPosition + ", yPosition:" + yPosition + ", name:" + name + ", isAlive:" + isAlive
+                + ", isImmortal:" + isImmortal + ", kills:" + kills + ", bombs:" + bombs + ", explosionRadius:"
+                + explosionRadius + ", shields:" + shields + ", charachter:" + charachter + "}}";
+        try {
+            String json = objectMapper.writeValueAsString(callBack);
+            return json;
+        } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return "Error mapping the board";
         }
     }
 

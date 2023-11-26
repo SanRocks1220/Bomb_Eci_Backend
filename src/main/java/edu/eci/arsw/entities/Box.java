@@ -93,6 +93,10 @@ public class Box {
         return destroyable;
     }
 
+    public boolean hasPowerUp(){
+        return hasPowerUp;
+    }
+
     @Override
     public String toString(){
         try{

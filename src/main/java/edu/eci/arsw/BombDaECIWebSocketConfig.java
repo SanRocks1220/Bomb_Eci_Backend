@@ -11,7 +11,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 public class BombDaECIWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
+        config.enableSimpleBroker("/topic", "/queue", "/user");
         config.setApplicationDestinationPrefixes("/app");
     }
 

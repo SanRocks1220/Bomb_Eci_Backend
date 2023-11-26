@@ -20,6 +20,20 @@ public class Board implements Runnable {
     private int radius = 8;
     private int shield = 4;
     private Object lock;
+    private String[][] boardInstance = {
+            { "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1" },
+            { "1", "0", "0", "2", "0", "2", "0", "2", "2", "0", "0", "1" },
+            { "1", "0", "1", "0", "0", "2", "2", "0", "0", "1", "0", "1" },
+            { "1", "2", "0", "2", "2", "1", "1", "2", "2", "0", "2", "1" },
+            { "1", "2", "0", "1", "0", "2", "2", "0", "1", "0", "0", "1" },
+            { "1", "0", "2", "0", "2", "1", "1", "2", "0", "2", "2", "1" },
+            { "1", "2", "2", "0", "2", "1", "1", "2", "0", "2", "0", "1" },
+            { "1", "0", "0", "1", "0", "2", "2", "0", "1", "0", "2", "1" },
+            { "1", "2", "0", "2", "2", "1", "1", "2", "2", "0", "2", "1" },
+            { "1", "0", "1", "0", "0", "2", "2", "0", "0", "1", "0", "1" },
+            { "1", "0", "0", "2", "2", "0", "2", "0", "2", "0", "0", "1" },
+            { "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1" }
+        };
 
     public Board() {
         board = new Box[size][size];
@@ -28,28 +42,13 @@ public class Board implements Runnable {
     }
 
     private void initializeBoard() {
-        int[][] tempBoard = {
-                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-                { 1, 0, 0, 2, 0, 2, 0, 2, 2, 0, 0, 1 },
-                { 1, 0, 1, 0, 0, 2, 2, 0, 0, 1, 0, 1 },
-                { 1, 2, 0, 2, 2, 1, 1, 2, 2, 0, 2, 1 },
-                { 1, 2, 0, 1, 0, 2, 2, 0, 1, 0, 0, 1 },
-                { 1, 0, 2, 0, 2, 1, 1, 2, 0, 2, 2, 1 },
-                { 1, 2, 2, 0, 2, 1, 1, 2, 0, 2, 0, 1 },
-                { 1, 0, 0, 1, 0, 2, 2, 0, 1, 0, 2, 1 },
-                { 1, 2, 0, 2, 2, 1, 1, 2, 2, 0, 2, 1 },
-                { 1, 0, 1, 0, 0, 2, 2, 0, 0, 1, 0, 1 },
-                { 1, 0, 0, 2, 2, 0, 2, 0, 2, 0, 0, 1 },
-                { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-        };
-
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (tempBoard[i][j] == 0) {
+                if (boardInstance[i][j].equals("0")) {
                     board[i][j] = new Box(i, j);
-                } else if (tempBoard[i][j] == 1) {
+                } else if (boardInstance[i][j].equals("1")) {
                     board[i][j] = new Block(i, j, false);
-                } else if (tempBoard[i][j] == 2) {
+                } else if (boardInstance[i][j].equals("2")) {
                     board[i][j] = new Block(i, j, true);
                 }
             }
@@ -199,6 +198,31 @@ public class Board implements Runnable {
             return jsonBoard;
         } catch (JsonProcessingException e) {
             return null;
+        }
+    }
+
+    @Override
+    public String toString(){
+        String content = "";
+        for (int i = 0; i < board.length; i++){
+            if (i != 0 && i != 11){
+                for(int j = 0; j < board[i].length; j++){
+                    if(j != 0 && j != 11){
+                        content = board[i][j].isEmpty() ? "0" :
+                                    board[i][j].hasPowerUp() ? "3" :
+                                    board[i][j].isDestroyable() ? "2" : "1";
+                        this.boardInstance[i][j] = content;
+                    }
+                }
+            }
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String json = objectMapper.writeValueAsString(this.boardInstance);
+            return json;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error mapping the board";
         }
     }
 }
