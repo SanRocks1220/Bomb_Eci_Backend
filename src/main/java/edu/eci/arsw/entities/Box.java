@@ -115,4 +115,8 @@ public class Box {
             return "";
         }
     }
+
+    public String getPuType() {
+        return ownPowerUp.getType() + "";
+    }
 }

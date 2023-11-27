@@ -252,16 +252,10 @@ public class Board implements Runnable {
     @Override
     public String toString(){
         String content = "";
-        for (int i = 0; i < board.length; i++){
-            if (i != 0 && i != 11){
-                for(int j = 0; j < board[i].length; j++){
-                    if(j != 0 && j != 11){
-                        content = board[i][j].isEmpty() ? "0" :
-                                    board[i][j].hasPowerUp() ? "3" :
-                                    board[i][j].isDestroyable() ? "2" : "1";
-                        this.boardInstance[i][j] = content;
-                    }
-                }
+        for (int i = 1; i < board.length - 1; i++){
+            for(int j = 1; j < board[i].length - 1; j++){
+                    content = translateBoard(i, j);
+                    this.boardInstance[i][j] = content;
             }
         }
         ObjectMapper objectMapper = new ObjectMapper();
@@ -272,5 +266,21 @@ public class Board implements Runnable {
             e.printStackTrace();
             return "Error mapping the board";
         }
+    }
+
+    private String translateBoard(int i, int j) {
+        if(getBox(i, j) instanceof Block){
+            if(getBox(i, j).isDestroyable()){
+                return "2";
+            }
+            return "1";
+        }
+        else if(getBox(i, j).hasBomb()){
+            return "BOMB";
+        }
+        else if(getBox(i, j).hasPowerUp()){
+            return getBox(i, j).getPuType();
+        }
+        return "0";
     }
 }
