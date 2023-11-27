@@ -139,14 +139,18 @@ public class Board implements Runnable {
         throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
 
-    public void explode(int xPosition, int yPosition, int explosionRadius) {
+    public int explode(int xPosition, int yPosition, int explosionRadius) {
         int i = xPosition;
         int j = yPosition;
+        int kills = 0;
         //Up
         for(int r = explosionRadius; r > 0; r--) {
             if (i-r > 0){
                 if(getBox(i-r, j).hasPlayer()) {
                     getBox(i-r, j).getPlayer().die();
+                    if(!getBox(i-r, j).getPlayer().isAlive()){
+                        kills++;
+                    }
                     break;
                 }
                 else if(getBox(i-r, j).isDestroyable()) {
@@ -167,6 +171,10 @@ public class Board implements Runnable {
             if (j-r > 0){
                 if(getBox(i, j-r).hasPlayer()) {
                     getBox(i, j-r).getPlayer().die();
+                    if(!getBox(i, j-r).getPlayer().isAlive()){
+                        kills++;
+                    }
+                    break;
                 }
                 else if(getBox(i, j-r).isDestroyable()) {
                     if(getBox(i, j-r).hasPowerUp()){
@@ -186,6 +194,10 @@ public class Board implements Runnable {
             if (j+r < size-1){
                 if(getBox(i, j+r).hasPlayer()) {
                     getBox(i, j+r).getPlayer().die();
+                    if(!getBox(i, j+r).getPlayer().isAlive()){
+                        kills++;
+                    }
+                    break;
                 }
                 else if(getBox(i, j+r).isDestroyable()) {
                     if(getBox(i, j+r).hasPowerUp()){
@@ -205,6 +217,9 @@ public class Board implements Runnable {
             if (i+r < size-1){
                 if(getBox(i+r, j).hasPlayer()) {
                     getBox(i+r, j).getPlayer().die();
+                    if(getBox(i+r, j).getPlayer().isAlive()){
+                        kills++;
+                    }
                     break;
                 }
                 else if(getBox(i+r, j).isDestroyable()) {
@@ -220,6 +235,7 @@ public class Board implements Runnable {
                 }
             }
         }
+        return kills;
     }
 
     public String getBoardJsonMode(){
