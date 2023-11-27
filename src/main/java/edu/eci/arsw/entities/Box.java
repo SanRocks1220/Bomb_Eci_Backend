@@ -26,6 +26,10 @@ public class Box {
         destroyable = false;
     }
 
+    public PowerUp getPowerUp() {
+        return ownPowerUp;
+    }
+
     public void setPowerUp(PowerUp pu) {
         hasPowerUp = true;
         ownPowerUp = pu;

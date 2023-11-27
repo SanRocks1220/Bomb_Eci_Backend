@@ -80,7 +80,7 @@ public class Board implements Runnable {
                 int y = position[1];
                 Box box = board[x][y];
 
-                if ((box instanceof Block && box.isDestroyable()) || !box.hasPowerUp()) {
+                if (box instanceof Block && ((Block) box).isDestroyable()) {
                     // Es una casilla destruible, coloca el boost correspondiente si aún hay
                     // disponibles.
                     if (bomb > 0) {
@@ -97,6 +97,7 @@ public class Board implements Runnable {
             }
         }
     }
+
     private List<int[]> positionFiller() {
         List<int[]> validPositions = new ArrayList<>();
 
@@ -149,7 +150,14 @@ public class Board implements Runnable {
                     break;
                 }
                 else if(getBox(i-r, j).isDestroyable()) {
-                    board[i-r][j] = new Box(i-r, j);
+                    if(getBox(i-r, j).hasPowerUp()){
+                        PowerUp pu = getBox(i-r, j).getPowerUp();
+                        board[i-r][j] = new Box(i-r, j);
+                        getBox(i-r, j).setPowerUp(pu);
+                    }
+                    else {
+                        board[i-r][j] = new Box(i-r, j);
+                    }
                     break;
                 }
             }
@@ -161,7 +169,15 @@ public class Board implements Runnable {
                     getBox(i, j-r).getPlayer().die();
                 }
                 else if(getBox(i, j-r).isDestroyable()) {
-                    board[i][j-r] = new Box(i, j-r);
+                    if(getBox(i, j-r).hasPowerUp()){
+                        PowerUp pu = getBox(i, j-r).getPowerUp();
+                        board[i][j-r] = new Box(i, j-r);
+                        getBox(i, j-r).setPowerUp(pu);
+                    }
+                    else {
+                        board[i][j-r] = new Box(i, j-r);
+                    }
+                    break;
                 }
             }
         }
@@ -172,7 +188,15 @@ public class Board implements Runnable {
                     getBox(i, j+r).getPlayer().die();
                 }
                 else if(getBox(i, j+r).isDestroyable()) {
-                    board[i][j+r] = new Box(i, j+r);
+                    if(getBox(i, j+r).hasPowerUp()){
+                        PowerUp pu = getBox(i, j+r).getPowerUp();
+                        board[i][j+r] = new Box(i, j+r);
+                        getBox(i, j+r).setPowerUp(pu);
+                    }
+                    else {
+                        board[i][j+r] = new Box(i, j+r);
+                    }
+                    break;
                 }
             }
         }
@@ -181,14 +205,23 @@ public class Board implements Runnable {
             if (i+r < size-1){
                 if(getBox(i+r, j).hasPlayer()) {
                     getBox(i+r, j).getPlayer().die();
+                    break;
                 }
                 else if(getBox(i+r, j).isDestroyable()) {
-                    board[i+r][j] = new Box(i+r, j);
+                    if(getBox(i+r, j).hasPowerUp()){
+                        PowerUp pu = getBox(i+r, j).getPowerUp();
+                        board[i+r][j] = new Box(i+r, j);
+                        getBox(i+r, j).setPowerUp(pu);
+                    }
+                    else {
+                        board[i+r][j] = new Box(i+r, j);
+                    }
+                    break;
                 }
             }
         }
     }
-  
+
     public String getBoardJsonMode(){
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonBoard;
