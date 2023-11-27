@@ -80,7 +80,7 @@ public class Board implements Runnable {
                 int y = position[1];
                 Box box = board[x][y];
 
-                if ((box instanceof Block && box.isDestroyable()) || !box.hasPowerUp()) {
+                if (box instanceof Block && ((Block) box).isDestroyable()) {
                     // Es una casilla destruible, coloca el boost correspondiente si aún hay
                     // disponibles.
                     if (bomb > 0) {
@@ -97,6 +97,7 @@ public class Board implements Runnable {
             }
         }
     }
+
     private List<int[]> positionFiller() {
         List<int[]> validPositions = new ArrayList<>();
 
@@ -138,18 +139,29 @@ public class Board implements Runnable {
         throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
 
-    public void explode(int xPosition, int yPosition, int explosionRadius) {
+    public int explode(int xPosition, int yPosition, int explosionRadius) {
         int i = xPosition;
         int j = yPosition;
+        int kills = 0;
         //Up
         for(int r = explosionRadius; r > 0; r--) {
             if (i-r > 0){
                 if(getBox(i-r, j).hasPlayer()) {
                     getBox(i-r, j).getPlayer().die();
+                    if(!getBox(i-r, j).getPlayer().isAlive()){
+                        kills++;
+                    }
                     break;
                 }
                 else if(getBox(i-r, j).isDestroyable()) {
-                    board[i-r][j] = new Box(i-r, j);
+                    if(getBox(i-r, j).hasPowerUp()){
+                        PowerUp pu = getBox(i-r, j).getPowerUp();
+                        board[i-r][j] = new Box(i-r, j);
+                        getBox(i-r, j).setPowerUp(pu);
+                    }
+                    else {
+                        board[i-r][j] = new Box(i-r, j);
+                    }
                     break;
                 }
             }
@@ -159,9 +171,21 @@ public class Board implements Runnable {
             if (j-r > 0){
                 if(getBox(i, j-r).hasPlayer()) {
                     getBox(i, j-r).getPlayer().die();
+                    if(!getBox(i, j-r).getPlayer().isAlive()){
+                        kills++;
+                    }
+                    break;
                 }
                 else if(getBox(i, j-r).isDestroyable()) {
-                    board[i][j-r] = new Box(i, j-r);
+                    if(getBox(i, j-r).hasPowerUp()){
+                        PowerUp pu = getBox(i, j-r).getPowerUp();
+                        board[i][j-r] = new Box(i, j-r);
+                        getBox(i, j-r).setPowerUp(pu);
+                    }
+                    else {
+                        board[i][j-r] = new Box(i, j-r);
+                    }
+                    break;
                 }
             }
         }
@@ -170,9 +194,21 @@ public class Board implements Runnable {
             if (j+r < size-1){
                 if(getBox(i, j+r).hasPlayer()) {
                     getBox(i, j+r).getPlayer().die();
+                    if(!getBox(i, j+r).getPlayer().isAlive()){
+                        kills++;
+                    }
+                    break;
                 }
                 else if(getBox(i, j+r).isDestroyable()) {
-                    board[i][j+r] = new Box(i, j+r);
+                    if(getBox(i, j+r).hasPowerUp()){
+                        PowerUp pu = getBox(i, j+r).getPowerUp();
+                        board[i][j+r] = new Box(i, j+r);
+                        getBox(i, j+r).setPowerUp(pu);
+                    }
+                    else {
+                        board[i][j+r] = new Box(i, j+r);
+                    }
+                    break;
                 }
             }
         }
@@ -181,14 +217,27 @@ public class Board implements Runnable {
             if (i+r < size-1){
                 if(getBox(i+r, j).hasPlayer()) {
                     getBox(i+r, j).getPlayer().die();
+                    if(getBox(i+r, j).getPlayer().isAlive()){
+                        kills++;
+                    }
+                    break;
                 }
                 else if(getBox(i+r, j).isDestroyable()) {
-                    board[i+r][j] = new Box(i+r, j);
+                    if(getBox(i+r, j).hasPowerUp()){
+                        PowerUp pu = getBox(i+r, j).getPowerUp();
+                        board[i+r][j] = new Box(i+r, j);
+                        getBox(i+r, j).setPowerUp(pu);
+                    }
+                    else {
+                        board[i+r][j] = new Box(i+r, j);
+                    }
+                    break;
                 }
             }
         }
+        return kills;
     }
-  
+
     public String getBoardJsonMode(){
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonBoard;
@@ -203,16 +252,10 @@ public class Board implements Runnable {
     @Override
     public String toString(){
         String content = "";
-        for (int i = 0; i < board.length; i++){
-            if (i != 0 && i != 11){
-                for(int j = 0; j < board[i].length; j++){
-                    if(j != 0 && j != 11){
-                        content = board[i][j].isEmpty() ? "0" :
-                                    board[i][j].hasPowerUp() ? "3" :
-                                    board[i][j].isDestroyable() ? "2" : "1";
-                        this.boardInstance[i][j] = content;
-                    }
-                }
+        for (int i = 1; i < board.length - 1; i++){
+            for(int j = 1; j < board[i].length - 1; j++){
+                    content = translateBoard(i, j);
+                    this.boardInstance[i][j] = content;
             }
         }
         ObjectMapper objectMapper = new ObjectMapper();
@@ -223,5 +266,21 @@ public class Board implements Runnable {
             e.printStackTrace();
             return "Error mapping the board";
         }
+    }
+
+    private String translateBoard(int i, int j) {
+        if(getBox(i, j) instanceof Block){
+            if(getBox(i, j).isDestroyable()){
+                return "2";
+            }
+            return "1";
+        }
+        else if(getBox(i, j).hasBomb()){
+            return "BOMB";
+        }
+        else if(getBox(i, j).hasPowerUp()){
+            return getBox(i, j).getPuType();
+        }
+        return "0";
     }
 }

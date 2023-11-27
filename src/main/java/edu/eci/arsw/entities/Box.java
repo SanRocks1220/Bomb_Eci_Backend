@@ -26,6 +26,10 @@ public class Box {
         destroyable = false;
     }
 
+    public PowerUp getPowerUp() {
+        return ownPowerUp;
+    }
+
     public void setPowerUp(PowerUp pu) {
         hasPowerUp = true;
         ownPowerUp = pu;
@@ -110,5 +114,9 @@ public class Box {
             e.printStackTrace();
             return "";
         }
+    }
+
+    public String getPuType() {
+        return ownPowerUp.getType() + "";
     }
 }

@@ -96,8 +96,8 @@ public class Player{
         return kills;
     }
 
-    public void increaseKills() {
-        kills++;
+    public void increaseKills(int k) {
+        kills = kills + k;
     }
 
     public int getBombs() {
@@ -198,6 +198,7 @@ public class Player{
     }
 
     public void explode(int xPosition, int yPosition) {
-        board.explode(xPosition, yPosition, explosionRadius);
+        int kills = board.explode(xPosition, yPosition, explosionRadius);
+        increaseKills(kills);
     }
 }
