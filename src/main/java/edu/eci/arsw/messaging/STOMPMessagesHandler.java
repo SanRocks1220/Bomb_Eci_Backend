@@ -21,7 +21,7 @@ public class STOMPMessagesHandler {
 
     @MessageMapping("/get-board-instance")
 	public void handleBoardInstance(String message) throws Exception {
-		System.out.println("A client wants to get a board instance!");
+		//System.out.println("A client wants to get a board instance!");
 		gameInstance.orchest(GameMode.SINGLE_PLAYER);
 		String response = gameInstance.getBoard().toString();
 		msgt.convertAndSend("/user/queue/get-board-instance", response);
@@ -29,7 +29,7 @@ public class STOMPMessagesHandler {
 
 	@MessageMapping("/get-player-instance")
 	public void handlePlayersInstance(String message) throws Exception {
-		System.out.println("A client wants to get a player instance!");
+		//System.out.println("A client wants to get a player instance!");
 		gameInstance.orchest(GameMode.SINGLE_PLAYER);
 		String response = gameInstance.getPlayers().get(0).toString();
 		msgt.convertAndSend("/user/queue/get-player-instance", response);
