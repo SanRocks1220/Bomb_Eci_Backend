@@ -1,0 +1,12 @@
+<settings>
+    <!-- Otras configuraciones pueden estar aquí -->
+
+    <servers>
+        <!-- Configuración de SonarCloud -->
+        <server>
+            <id>sonarcloud</id>
+            <username>${env.SONAR_TOKEN}</username>
+            <password>${env.SONAR_TOKEN}</password>
+        </server>
+    </servers>
+</settings>

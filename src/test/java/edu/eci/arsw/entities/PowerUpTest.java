@@ -1,4 +1,4 @@
-package edu.eci.arsw;
+package edu.eci.arsw.entities;
 
 import static org.junit.Assert.assertEquals;
 
@@ -35,28 +35,28 @@ public class PowerUpTest {
     }
 
     @Test
-    public void testAplyShield() {
-        int originalShield = player.getShields();
+    public void testApplyShield() {
+        int originalShields = player.getShields();
         shield.applyEffect(player);
-        assertEquals(originalShield + 1, player.getShields());
+        assertEquals(originalShields + 1, player.getShields());
     }
 
     @Test
-    public void testAplyBombUp() {
+    public void testApplyBombUp() {
         int originalBombs = player.getBombs();
         bombUp.applyEffect(player);
         assertEquals(originalBombs + 1, player.getBombs());
     }
 
     @Test
-    public void testAplyRangeUp() {
+    public void testApplyRangeUp() {
         int originalRadius = player.getExplosionRadius();
         rangeUp.applyEffect(player);
         assertEquals(originalRadius + 1, player.getExplosionRadius());
     }
 
     @Test
-    public void ShouldGetTheJsonForPowerUp(){
+    public void testToString() {
         PowerUp newBombUp = new PowerUp(PowerUpType.BOMB_UP);
         assertEquals(newBombUp.toString(), bombUp.toString());
     }
