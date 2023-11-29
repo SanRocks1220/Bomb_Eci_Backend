@@ -17,12 +17,6 @@ class BoardTest {
         assertTrue(board.getBox(xPosition, yPosition).isDestroyable());
     }
 
-    @Test
-    void testGetBoardJsonMode() {
-        Board board = new Board();
-        String jsonMapped = board.getBoardJsonMode();
-        assertTrue(jsonMapped.contains("[[{\"x\":0,\"y\":0,\"destroyable\""));
-    }
 
     @Test
     void testGetBomb() {

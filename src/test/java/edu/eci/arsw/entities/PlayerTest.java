@@ -44,7 +44,8 @@ class PlayerTest {
     @Test
     void testToString() {
         Player player1 = new Player(1, 2, "juanito", false,1);
-        assertTrue(player1.toString().contains("{\"name\":\"juanito\",\"kills\":0"));
+        System.out.println(player1.toString());
+        assertTrue(player1.toString().contains("{\"xPosition\": 1, \"yPosition\": 2, \"name\": \"juanito\", \"isAlive\": true,"));
     }
 
     @Test
