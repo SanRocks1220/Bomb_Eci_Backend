@@ -177,6 +177,8 @@ public class Board implements Runnable {
                     board[newX][newY] = new Box(newX, newY);
                 }
                 break;
+            } else if(!currentBox.isDestroyable() && currentBox instanceof Block){
+                break;
             }
         }
     
