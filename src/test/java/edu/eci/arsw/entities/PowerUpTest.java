@@ -1,4 +1,4 @@
-package edu.eci.arsw;
+package edu.eci.arsw.entities;
 
 import static org.junit.Assert.assertEquals;
 

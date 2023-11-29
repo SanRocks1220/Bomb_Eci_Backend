@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 class BoardTest {
     @Test
     void testExplode() {
-        Board board = new Board(); // Ajusta según tu implementación
+        Board board = new Board();
         int xPosition = 1;
         int yPosition = 3;
         int explosionRadius = 2;
