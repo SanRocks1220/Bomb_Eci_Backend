@@ -19,7 +19,6 @@ public class Board implements Runnable {
     private int bomb = 6;
     private int radius = 8;
     private int shield = 4;
-    private Object lock;
     private String[][] boardInstance = {
             { "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1" },
             { "1", "0", "0", "2", "0", "2", "0", "2", "2", "0", "0", "1" },

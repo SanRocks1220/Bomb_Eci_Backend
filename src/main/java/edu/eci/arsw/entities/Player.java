@@ -1,8 +1,5 @@
 package edu.eci.arsw.entities;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import edu.eci.arsw.controllers.Board;
 
 public class Player{
