@@ -101,6 +101,8 @@
       <version>3.10.0.2594</version>
     </dependency>
 
+    
+
   </dependencies>
 
   <build>
@@ -188,6 +190,32 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.7</version>
+          <executions>
+              <execution>
+                  <id>default-prepare-agent</id>
+                  <goals>
+                      <goal>prepare-agent</goal>
+                  </goals>
+              </execution>
+              <!-- attached to Maven test phase -->
+              <execution>
+                  <id>default-report</id>
+                  <phase>test</phase>
+                  <goals>
+                      <goal>report</goal>
+                  </goals>
+                  <configuration>
+                      <outputDirectory>./coverage/jacoco</outputDirectory>
+                  </configuration>
+              </execution>
+          </executions>
+      </plugin>
+
     </plugins>
   </build>
 </project>
