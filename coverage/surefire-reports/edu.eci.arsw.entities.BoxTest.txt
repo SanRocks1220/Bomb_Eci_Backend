@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: edu.eci.arsw.entities.BoxTest
 -------------------------------------------------------------------------------
-Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.214 s - in edu.eci.arsw.entities.BoxTest
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.347 s - in edu.eci.arsw.entities.BoxTest

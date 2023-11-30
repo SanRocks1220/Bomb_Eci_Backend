@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Game.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bombeci</a> &gt; <a href="index.source.html" class="el_package">edu.eci.arsw.controllers</a> &gt; <span class="el_source">Game.java</span></div><h1>Game.java</h1><pre class="source lang-java linenums">package edu.eci.arsw.controllers;
+
+import java.util.ArrayList;
+
+import edu.eci.arsw.entities.Player;
+import edu.eci.arsw.model.GameMode;
+
+public class Game {
+
+  public GameMode gameMode;
+
+  public Board board;
+
+  public Player player1;
+  public Player player2;
+  public Player player3;
+  public Player player4;
+
+  public ArrayList&lt;Player&gt; players;
+
+<span class="fc" id="L21">  public Game() {</span>
+<span class="fc" id="L22">  }</span>
+
+  public void orchest(GameMode gameMode) {
+<span class="fc" id="L25">    board = new Board();</span>
+<span class="fc" id="L26">    players = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L27" title="2 of 3 branches missed.">    switch (gameMode) {</span>
+      case SINGLE_PLAYER:
+<span class="nc" id="L29">        player1 = new Player(1, 1, &quot;FixedName1&quot;, false, 0);</span>
+<span class="nc" id="L30">        player1.setBoard(board);</span>
+
+<span class="nc" id="L32">        players.add(player1);</span>
+<span class="nc" id="L33">        break;</span>
+
+      case MULTI_PLAYER:
+<span class="fc" id="L36">        player1 = new Player(1, 1, &quot;FixedName1&quot;, false, 0);</span>
+<span class="fc" id="L37">        player2 = new Player(1, 10, &quot;FixedName2&quot;, false, 0);</span>
+<span class="fc" id="L38">        player3 = new Player(10, 1, &quot;FixedName3&quot;, false, 0);</span>
+<span class="fc" id="L39">        player4 = new Player(10, 10, &quot;FixedName4&quot;, false, 0);</span>
+
+<span class="fc" id="L41">        player1.setBoard(board);</span>
+<span class="fc" id="L42">        player2.setBoard(board);</span>
+<span class="fc" id="L43">        player3.setBoard(board);</span>
+<span class="fc" id="L44">        player4.setBoard(board);</span>
+
+<span class="fc" id="L46">        players.add(player1);</span>
+<span class="fc" id="L47">        players.add(player2);</span>
+<span class="fc" id="L48">        players.add(player3);</span>
+<span class="fc" id="L49">        players.add(player4);</span>
+        break;
+    }
+<span class="fc" id="L52">  }</span>
+
+  public Board getBoard() {
+<span class="fc" id="L55">    return this.board;</span>
+  }
+
+  public ArrayList&lt;Player&gt; getPlayers() {
+<span class="fc" id="L59">    return this.players;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

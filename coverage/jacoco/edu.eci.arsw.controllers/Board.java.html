@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Board.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bombeci</a> &gt; <a href="index.source.html" class="el_package">edu.eci.arsw.controllers</a> &gt; <span class="el_source">Board.java</span></div><h1>Board.java</h1><pre class="source lang-java linenums">package edu.eci.arsw.controllers;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import edu.eci.arsw.entities.Block;
+import edu.eci.arsw.entities.Box;
+import edu.eci.arsw.entities.PowerUp;
+import edu.eci.arsw.model.PowerUpType;
+
+public class Board implements Runnable {
+
+    private Box[][] board;
+    private static final int size = 12;
+<span class="fc" id="L19">    private int bomb = 6;</span>
+<span class="fc" id="L20">    private int radius = 8;</span>
+<span class="fc" id="L21">    private int shield = 4;</span>
+<span class="fc" id="L22">    private String[][] boardInstance = {</span>
+            { &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot; },
+            { &quot;1&quot;, &quot;0&quot;, &quot;0&quot;, &quot;2&quot;, &quot;0&quot;, &quot;2&quot;, &quot;0&quot;, &quot;2&quot;, &quot;2&quot;, &quot;0&quot;, &quot;0&quot;, &quot;1&quot; },
+            { &quot;1&quot;, &quot;0&quot;, &quot;1&quot;, &quot;0&quot;, &quot;0&quot;, &quot;2&quot;, &quot;2&quot;, &quot;0&quot;, &quot;0&quot;, &quot;1&quot;, &quot;0&quot;, &quot;1&quot; },
+            { &quot;1&quot;, &quot;2&quot;, &quot;0&quot;, &quot;2&quot;, &quot;2&quot;, &quot;1&quot;, &quot;1&quot;, &quot;2&quot;, &quot;2&quot;, &quot;0&quot;, &quot;2&quot;, &quot;1&quot; },
+            { &quot;1&quot;, &quot;2&quot;, &quot;0&quot;, &quot;1&quot;, &quot;0&quot;, &quot;2&quot;, &quot;2&quot;, &quot;0&quot;, &quot;1&quot;, &quot;0&quot;, &quot;0&quot;, &quot;1&quot; },
+            { &quot;1&quot;, &quot;0&quot;, &quot;2&quot;, &quot;0&quot;, &quot;2&quot;, &quot;1&quot;, &quot;1&quot;, &quot;2&quot;, &quot;0&quot;, &quot;2&quot;, &quot;2&quot;, &quot;1&quot; },
+            { &quot;1&quot;, &quot;2&quot;, &quot;2&quot;, &quot;0&quot;, &quot;2&quot;, &quot;1&quot;, &quot;1&quot;, &quot;2&quot;, &quot;0&quot;, &quot;2&quot;, &quot;0&quot;, &quot;1&quot; },
+            { &quot;1&quot;, &quot;0&quot;, &quot;0&quot;, &quot;1&quot;, &quot;0&quot;, &quot;2&quot;, &quot;2&quot;, &quot;0&quot;, &quot;1&quot;, &quot;0&quot;, &quot;2&quot;, &quot;1&quot; },
+            { &quot;1&quot;, &quot;2&quot;, &quot;0&quot;, &quot;2&quot;, &quot;2&quot;, &quot;1&quot;, &quot;1&quot;, &quot;2&quot;, &quot;2&quot;, &quot;0&quot;, &quot;2&quot;, &quot;1&quot; },
+            { &quot;1&quot;, &quot;0&quot;, &quot;1&quot;, &quot;0&quot;, &quot;0&quot;, &quot;2&quot;, &quot;2&quot;, &quot;0&quot;, &quot;0&quot;, &quot;1&quot;, &quot;0&quot;, &quot;1&quot; },
+            { &quot;1&quot;, &quot;0&quot;, &quot;0&quot;, &quot;2&quot;, &quot;2&quot;, &quot;0&quot;, &quot;2&quot;, &quot;0&quot;, &quot;2&quot;, &quot;0&quot;, &quot;0&quot;, &quot;1&quot; },
+            { &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot; }
+        };
+
+<span class="fc" id="L37">    public Board() {</span>
+<span class="fc" id="L38">        board = new Box[size][size];</span>
+<span class="fc" id="L39">        initializeBoard();</span>
+<span class="fc" id="L40">        generateBoosts();</span>
+<span class="fc" id="L41">    }</span>
+
+    private void initializeBoard() {
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        for (int i = 0; i &lt; size; i++) {</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            for (int j = 0; j &lt; size; j++) {</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">                if (boardInstance[i][j].equals(&quot;0&quot;)) {</span>
+<span class="fc" id="L47">                    board[i][j] = new Box(i, j);</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">                } else if (boardInstance[i][j].equals(&quot;1&quot;)) {</span>
+<span class="fc" id="L49">                    board[i][j] = new Block(i, j, false);</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">                } else if (boardInstance[i][j].equals(&quot;2&quot;)) {</span>
+<span class="fc" id="L51">                    board[i][j] = new Block(i, j, true);</span>
+                }
+            }
+        }
+<span class="fc" id="L55">    }</span>
+
+    /**
+     * Could be in the next positions:
+     * [4][1],[5][1],[6][1],[7][1]
+     * [3][3],[3][4],[3][5],[3][6],[3][7],[3][8]
+     * [4][3],[5][3],[6][3],[7][3],[8][3]
+     * [4][8],[5][8],[6][8],[7][8],[8][8]
+     * [8][4],[8][5],[8][6],[8][7]
+     * [4][4],[4][5],[4][6],[4][7]
+     * [7][4],[7][5],[7][6],[7][7]
+     * [5][4],[6][4],[7][4]
+     * [5][7],[6][7]
+     * [4][10],[5][10],[6][10],[7][10]
+     * 
+     */
+    private void generateBoosts() {
+<span class="fc" id="L72">        List&lt;int[]&gt; validPositions = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L73">        validPositions = positionFiller();</span>
+<span class="fc" id="L74">        Collections.shuffle(validPositions);</span>
+
+<span class="pc bpc" id="L76" title="2 of 6 branches missed.">        while (bomb &gt; 0 || radius &gt; 0 || shield &gt; 0) {</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            for (int[] position : validPositions) {</span>
+<span class="fc" id="L78">                int x = position[0];</span>
+<span class="fc" id="L79">                int y = position[1];</span>
+<span class="fc" id="L80">                Box box = board[x][y];</span>
+
+<span class="fc bfc" id="L82" title="All 4 branches covered.">                if (box instanceof Block &amp;&amp; ((Block) box).isDestroyable()) {</span>
+                    // Es una casilla destruible, coloca el boost correspondiente si aún hay
+                    // disponibles.
+<span class="fc bfc" id="L85" title="All 2 branches covered.">                    if (bomb &gt; 0) {</span>
+<span class="fc" id="L86">                        box.setPowerUp(new PowerUp(PowerUpType.BOMB_UP));</span>
+<span class="fc" id="L87">                        bomb--;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">                    } else if (radius &gt; 0) {</span>
+<span class="fc" id="L89">                        box.setPowerUp(new PowerUp(PowerUpType.RANGE_UP));</span>
+<span class="fc" id="L90">                        radius--;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">                    } else if (shield &gt; 0) {</span>
+<span class="fc" id="L92">                        box.setPowerUp(new PowerUp(PowerUpType.SHIELD));</span>
+<span class="fc" id="L93">                        shield--;</span>
+                    }
+                }
+<span class="fc" id="L96">            }</span>
+        }
+<span class="fc" id="L98">    }</span>
+
+    private List&lt;int[]&gt; positionFiller() {
+<span class="fc" id="L101">        List&lt;int[]&gt; validPositions = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L103">        int[][] positions = {</span>
+                { 4, 1 }, { 5, 1 }, { 6, 1 }, { 7, 1 }, { 3, 3 }, { 3, 4 },
+                { 3, 5 }, { 3, 6 }, { 3, 7 }, { 3, 8 }, { 4, 3 }, { 5, 3 },
+                { 6, 3 }, { 7, 3 }, { 8, 3 }, { 4, 8 }, { 5, 8 }, { 6, 8 },
+                { 7, 8 }, { 8, 8 }, { 8, 4 }, { 8, 5 }, { 8, 6 }, { 8, 7 },
+                { 4, 4 }, { 4, 5 }, { 4, 6 }, { 4, 7 }, { 7, 4 }, { 7, 5 },
+                { 7, 6 }, { 7, 7 }, { 5, 4 }, { 6, 4 }, { 7, 4 }, { 5, 7 },
+                { 6, 7 }, { 4, 10 }, { 5, 10 }, { 6, 10 }, { 7, 10 }
+        };
+
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        for (int[] position : positions) {</span>
+<span class="fc" id="L114">            validPositions.add(position);</span>
+        }
+
+<span class="fc" id="L117">        return validPositions;</span>
+    }
+
+    public int getBomb() {
+<span class="fc" id="L121">        return bomb;</span>
+    }
+
+    public int getRadius() {
+<span class="fc" id="L125">        return radius;</span>
+    }
+
+    public int getShield() {
+<span class="fc" id="L129">        return shield;</span>
+    }
+
+    public Box getBox(int xPosition, int yPosition) {
+<span class="fc" id="L133">        return board[xPosition][yPosition];</span>
+    }
+
+    @Override
+    public void run() {
+<span class="nc" id="L138">        throw new UnsupportedOperationException(&quot;Unimplemented method 'run'&quot;);</span>
+    }
+
+    public int explode(int xPosition, int yPosition, int explosionRadius) {
+<span class="fc" id="L142">        int kills = 0;</span>
+    
+<span class="fc" id="L144">        kills += explodeDirection(xPosition, yPosition, -1, 0, explosionRadius); // Up</span>
+<span class="fc" id="L145">        kills += explodeDirection(xPosition, yPosition, 0, -1, explosionRadius); // Left</span>
+<span class="fc" id="L146">        kills += explodeDirection(xPosition, yPosition, 0, 1, explosionRadius);  // Right</span>
+<span class="fc" id="L147">        kills += explodeDirection(xPosition, yPosition, 1, 0, explosionRadius);  // Down</span>
+    
+<span class="fc" id="L149">        return kills;</span>
+    }
+    
+    private int explodeDirection(int x, int y, int moveX, int moveY, int explosionRadius) {
+<span class="fc" id="L153">        int kills = 0;</span>
+    
+<span class="fc bfc" id="L155" title="All 2 branches covered.">        for (int r = 1; r &lt;= explosionRadius; r++) {</span>
+<span class="fc" id="L156">            int newX = x + r * moveX;</span>
+<span class="fc" id="L157">            int newY = y + r * moveY;</span>
+    
+<span class="pc bpc" id="L159" title="4 of 8 branches missed.">            if (newX &lt; 0 || newX &gt;= size || newY &lt; 0 || newY &gt;= size) {</span>
+<span class="nc" id="L160">                break;</span>
+            }
+    
+<span class="fc" id="L163">            Box currentBox = getBox(newX, newY);</span>
+    
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">            if (currentBox.hasPlayer()) {</span>
+<span class="nc" id="L166">                currentBox.getPlayer().die();</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">                if (!currentBox.getPlayer().isAlive()) {</span>
+<span class="nc" id="L168">                    kills++;</span>
+                }
+                break;
+<span class="fc bfc" id="L171" title="All 2 branches covered.">            } else if (currentBox.isDestroyable()) {</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">                if (currentBox.hasPowerUp()) {</span>
+<span class="fc" id="L173">                    PowerUp powerUp = currentBox.getPowerUp();</span>
+<span class="fc" id="L174">                    board[newX][newY] = new Box(newX, newY);</span>
+<span class="fc" id="L175">                    getBox(newX, newY).setPowerUp(powerUp);</span>
+<span class="fc" id="L176">                } else {</span>
+<span class="fc" id="L177">                    board[newX][newY] = new Box(newX, newY);</span>
+                }
+<span class="fc" id="L179">                break;</span>
+<span class="pc bpc" id="L180" title="1 of 4 branches missed.">            } else if(!currentBox.isDestroyable() &amp;&amp; currentBox instanceof Block){</span>
+<span class="fc" id="L181">                break;</span>
+            }
+        }
+    
+<span class="fc" id="L185">        return kills;</span>
+    }
+
+    public String getBoardJsonMode(){
+<span class="nc" id="L189">        ObjectMapper objectMapper = new ObjectMapper();</span>
+        String jsonBoard;
+        try {
+<span class="nc" id="L192">            jsonBoard = objectMapper.writeValueAsString(board);</span>
+<span class="nc" id="L193">            return jsonBoard;</span>
+<span class="nc" id="L194">        } catch (JsonProcessingException e) {</span>
+<span class="nc" id="L195">            return null;</span>
+        }
+    }
+
+    @Override
+    public String toString(){
+<span class="nc" id="L201">        String content = &quot;&quot;;</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">        for (int i = 1; i &lt; board.length - 1; i++){</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">            for(int j = 1; j &lt; board[i].length - 1; j++){</span>
+<span class="nc" id="L204">                    content = translateBoard(i, j);</span>
+<span class="nc" id="L205">                    this.boardInstance[i][j] = content;</span>
+            }
+        }
+<span class="nc" id="L208">        ObjectMapper objectMapper = new ObjectMapper();</span>
+        try {
+<span class="nc" id="L210">            String json = objectMapper.writeValueAsString(this.boardInstance);</span>
+<span class="nc" id="L211">            return json;</span>
+<span class="nc" id="L212">        } catch (Exception e) {</span>
+<span class="nc" id="L213">            e.printStackTrace();</span>
+<span class="nc" id="L214">            return &quot;Error mapping the board&quot;;</span>
+        }
+    }
+
+    private String translateBoard(int i, int j) {
+<span class="nc bnc" id="L219" title="All 2 branches missed.">        if(getBox(i, j) instanceof Block){</span>
+<span class="nc bnc" id="L220" title="All 2 branches missed.">            if(getBox(i, j).isDestroyable()){</span>
+<span class="nc" id="L221">                return &quot;2&quot;;</span>
+            }
+<span class="nc" id="L223">            return &quot;1&quot;;</span>
+        }
+<span class="nc bnc" id="L225" title="All 2 branches missed.">        else if(getBox(i, j).hasBomb()){</span>
+<span class="nc" id="L226">            return &quot;BOMB&quot;;</span>
+        }
+<span class="nc bnc" id="L228" title="All 2 branches missed.">        else if(getBox(i, j).hasPowerUp()){</span>
+<span class="nc" id="L229">            return getBox(i, j).getPuType();</span>
+        }
+<span class="nc" id="L231">        return &quot;0&quot;;</span>
+    }
+
+    public String[][] getBordInstance(){
+<span class="nc" id="L235">        return this.boardInstance;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

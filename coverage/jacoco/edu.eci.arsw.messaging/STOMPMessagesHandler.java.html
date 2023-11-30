@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>STOMPMessagesHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bombeci</a> &gt; <a href="index.source.html" class="el_package">edu.eci.arsw.messaging</a> &gt; <span class="el_source">STOMPMessagesHandler.java</span></div><h1>STOMPMessagesHandler.java</h1><pre class="source lang-java linenums">package edu.eci.arsw.messaging;
+
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Base64;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Controller;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import edu.eci.arsw.model.GameMode;
+import edu.eci.arsw.model.PlayerInteraction;
+import edu.eci.arsw.controllers.Game;
+
+@Controller
+<span class="nc" id="L21">public class STOMPMessagesHandler {</span>
+<span class="nc" id="L22">	Game gameInstance = new Game();</span>
+<span class="nc" id="L23">	ArrayList&lt;Integer&gt; charactersChosen = new ArrayList&lt;&gt;();</span>
+
+	@Autowired
+	SimpMessagingTemplate msgt;
+
+    @MessageMapping(&quot;/get-board-instance.{userId}&quot;)
+	public void handleBoardInstance(String message, @DestinationVariable String userId) throws Exception {
+		//System.out.println(&quot;A client wants to get a board instance!&quot;);
+<span class="nc" id="L31">		gameInstance.orchest(GameMode.SINGLE_PLAYER);</span>
+<span class="nc" id="L32">		String response = gameInstance.getBoard().toString();</span>
+<span class="nc" id="L33">		msgt.convertAndSend(&quot;/user/queue/get-board-instance.&quot; + userId, response);</span>
+<span class="nc" id="L34">	}</span>
+
+	@MessageMapping(&quot;/get-board-instance-in-game.{userId}&quot;)
+	public void handleBoardInstanceInGame(String message, @DestinationVariable String userId) throws Exception {
+<span class="nc" id="L38">		String[][] response1 = gameInstance.getBoard().getBordInstance();</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">		for(int i = 0 ; i &lt; 12 ; ++i){</span>
+<span class="nc" id="L40">			System.out.print(&quot;&quot; + i + &quot; :&quot;); </span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">		   for(int j = 0 ; j &lt; 12 ; ++j){</span>
+<span class="nc" id="L42">			  System.out.print(&quot; &quot; + response1[i][j]);</span>
+		   }
+<span class="nc" id="L44">			System.out.print(&quot;\n&quot;);</span>
+		 }
+<span class="nc" id="L46">		int x = gameInstance.getPlayers().get(0).getXPosition();</span>
+<span class="nc" id="L47">		int y = gameInstance.getPlayers().get(0).getYPosition();</span>
+<span class="nc" id="L48">		System.out.print(x + &quot;, &quot; + y);</span>
+
+<span class="nc" id="L50">		String response = gameInstance.getBoard().toString();</span>
+		
+<span class="nc" id="L52">		msgt.convertAndSend(&quot;/user/queue/get-board-instance-in-game.&quot; + userId, response);</span>
+<span class="nc" id="L53">	}</span>
+
+	@MessageMapping(&quot;/get-player-instance.{userId}&quot;)
+	public void handlePlayersInstance(String message, @DestinationVariable String userId) throws Exception {
+		//System.out.println(&quot;A client wants to get a player instance!&quot;);
+<span class="nc" id="L58">		gameInstance.orchest(GameMode.SINGLE_PLAYER);</span>
+<span class="nc" id="L59">		String response = gameInstance.getPlayers().get(0).toString();</span>
+<span class="nc" id="L60">		msgt.convertAndSend(&quot;/user/queue/get-player-instance.&quot; + userId, response);</span>
+<span class="nc" id="L61">	}</span>
+    
+	@MessageMapping(&quot;/player-interaction.{userId}&quot;)
+	public void handlePlayerInteraction(PlayerInteraction pi, @DestinationVariable String userId) throws Exception {
+<span class="nc" id="L65">		gameInstance.getPlayers().get(0).action(pi);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">		if (pi.getKey().equals(&quot; &quot;)){</span>
+<span class="nc" id="L67">			String response = gameInstance.getBoard().toString();</span>
+<span class="nc" id="L68">			msgt.convertAndSend(&quot;/user/queue/get-board-instance.&quot; + userId, response);</span>
+		}
+<span class="nc" id="L70">		String player = gameInstance.getPlayers().get(0).toString();</span>
+<span class="nc" id="L71">		msgt.convertAndSend(&quot;/user/queue/get-player-instance.&quot; + userId, player);</span>
+<span class="nc" id="L72">	}</span>
+
+	@MessageMapping(&quot;/set-chosen-character.{userId}&quot;)
+	public void handleChosenCharacter(String message, @DestinationVariable String userId) throws Exception {
+		//System.out.println(&quot;A client wants to get a player instance!&quot;);
+<span class="nc" id="L77">		int character = Integer.parseInt(message);</span>
+<span class="nc" id="L78">		gameInstance.getPlayers().get(0).setCharacter(character);</span>
+<span class="nc" id="L79">		String response = gameInstance.getPlayers().get(0).toString();</span>
+<span class="nc" id="L80">		msgt.convertAndSend(&quot;/user/queue/get-player-instance.&quot; + userId, response);</span>
+<span class="nc" id="L81">	}</span>
+
+	@MessageMapping(&quot;/get-user-id&quot;)
+	public void handleUserId(String message) throws Exception {
+<span class="nc" id="L85">		int tokenLength = 16; // Puedes ajustar este valor según la longitud que necesites</span>
+        // Generar bytes aleatorios
+<span class="nc" id="L87">        byte[] bytes = new byte[tokenLength];</span>
+<span class="nc" id="L88">        SecureRandom secureRandom = new SecureRandom();</span>
+<span class="nc" id="L89">        secureRandom.nextBytes(bytes);</span>
+<span class="nc" id="L90">		String token = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);</span>
+<span class="nc" id="L91">		token = String.format(&quot;{\&quot;token\&quot;: \&quot;%s\&quot;}&quot;, token);</span>
+<span class="nc" id="L92">		msgt.convertAndSend(&quot;/user/queue/get-user-id&quot;, token);</span>
+<span class="nc" id="L93">	}</span>
+
+
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

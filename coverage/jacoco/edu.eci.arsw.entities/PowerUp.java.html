@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PowerUp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bombeci</a> &gt; <a href="index.source.html" class="el_package">edu.eci.arsw.entities</a> &gt; <span class="el_source">PowerUp.java</span></div><h1>PowerUp.java</h1><pre class="source lang-java linenums">package edu.eci.arsw.entities;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import edu.eci.arsw.model.PowerUpType;
+
+public class PowerUp{
+
+    private PowerUpType type;
+
+<span class="fc" id="L12">    public PowerUp(PowerUpType type) {</span>
+<span class="fc" id="L13">        this.type = type;</span>
+<span class="fc" id="L14">    }</span>
+
+    public void applyEffect(Player player) {
+<span class="nc bnc" id="L17" title="All 4 branches missed.">        switch (type) {</span>
+            case SHIELD:
+<span class="nc" id="L19">                player.gainShields();</span>
+<span class="nc" id="L20">                break;</span>
+            case BOMB_UP:
+<span class="nc" id="L22">                player.increaseBombs();</span>
+<span class="nc" id="L23">                break;</span>
+            case RANGE_UP:
+<span class="nc" id="L25">                player.increaseExplosionRadius();</span>
+                break;
+        }
+<span class="nc" id="L28">    }</span>
+
+    public PowerUpType getType() {
+<span class="fc" id="L31">        return type;</span>
+    }
+    
+    @Override
+    public String toString(){
+        try{
+<span class="nc" id="L37">            ObjectMapper objectMapper = new ObjectMapper();</span>
+<span class="nc" id="L38">            return objectMapper.writeValueAsString(this);</span>
+<span class="nc" id="L39">        }catch(JsonProcessingException e){</span>
+<span class="nc" id="L40">            e.printStackTrace();</span>
+<span class="nc" id="L41">            return null;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
