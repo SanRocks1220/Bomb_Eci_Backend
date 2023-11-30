@@ -128,7 +128,7 @@
           <version>2.22.1</version>
           <configuration>
               <testFailureIgnore>true</testFailureIgnore>
-              <reportsDirectory>./target/surefire-reports</reportsDirectory>
+              <reportsDirectory>./coverage/surefire-reports</reportsDirectory>
           </configuration>
         </plugin>
         <plugin>
