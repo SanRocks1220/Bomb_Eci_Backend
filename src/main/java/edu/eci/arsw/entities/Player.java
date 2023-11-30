@@ -195,20 +195,22 @@ public class Player{
     }
 
     public void action(PlayerInteraction pi){
-        if (pi.getKey().equals("w")){
-            moveUp();
-        }
-        if (pi.getKey().equals("s")){
-            moveDown();
-        }
-        if(pi.getKey().equals("d")){
-            moveRight();
-        }
-        if(pi.getKey().equals("a")){
-            moveLeft();
-        }
-        if(pi.getKey().equals(" ")){
-            putBomb();
+        switch (pi.getKey()) {
+            case "w":
+                moveUp();
+                break;
+            case "a":
+                moveLeft();
+                break;
+            case "s":
+                moveDown();
+                break;
+            case "d":
+                moveRight();
+                break;
+            case " ":
+                putBomb();
+                break;
         }
     }
 }

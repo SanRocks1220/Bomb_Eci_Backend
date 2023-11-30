@@ -10,6 +10,9 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import edu.eci.arsw.model.GameMode;
 import edu.eci.arsw.model.PlayerInteraction;
 import edu.eci.arsw.controllers.Game;
@@ -28,6 +31,25 @@ public class STOMPMessagesHandler {
 		gameInstance.orchest(GameMode.SINGLE_PLAYER);
 		String response = gameInstance.getBoard().toString();
 		msgt.convertAndSend("/user/queue/get-board-instance." + userId, response);
+	}
+
+	@MessageMapping("/get-board-instance-in-game.{userId}")
+	public void handleBoardInstanceInGame(String message, @DestinationVariable String userId) throws Exception {
+		String[][] response1 = gameInstance.getBoard().getBordInstance();
+		for(int i = 0 ; i < 12 ; ++i){
+			System.out.print("" + i + " :"); 
+		   for(int j = 0 ; j < 12 ; ++j){
+			  System.out.print(" " + response1[i][j]);
+		   }
+			System.out.print("\n");
+		 }
+		int x = gameInstance.getPlayers().get(0).getXPosition();
+		int y = gameInstance.getPlayers().get(0).getYPosition();
+		System.out.print(x + ", " + y);
+
+		String response = gameInstance.getBoard().toString();
+		
+		msgt.convertAndSend("/user/queue/get-board-instance-in-game." + userId, response);
 	}
 
 	@MessageMapping("/get-player-instance.{userId}")

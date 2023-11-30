@@ -15,6 +15,7 @@ public class Bomb implements Runnable{
         owner = player;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
+        run();
     }
 
     @Override

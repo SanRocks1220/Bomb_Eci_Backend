@@ -228,4 +228,8 @@ public class Board implements Runnable {
         }
         return "0";
     }
+
+    public String[][] getBordInstance(){
+        return this.boardInstance;
+    }
 }
