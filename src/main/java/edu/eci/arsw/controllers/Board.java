@@ -19,7 +19,6 @@ public class Board implements Runnable {
     private int bomb = 6;
     private int radius = 8;
     private int shield = 4;
-    private Object lock;
     private String[][] boardInstance = {
             { "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1" },
             { "1", "0", "0", "2", "0", "2", "0", "2", "2", "0", "0", "1" },
@@ -140,101 +139,49 @@ public class Board implements Runnable {
     }
 
     public int explode(int xPosition, int yPosition, int explosionRadius) {
-        int i = xPosition;
-        int j = yPosition;
         int kills = 0;
-        //Up
-        for(int r = explosionRadius; r > 0; r--) {
-            if (i-r > 0){
-                if(getBox(i-r, j).hasPlayer()) {
-                    getBox(i-r, j).getPlayer().die();
-                    if(!getBox(i-r, j).getPlayer().isAlive()){
-                        kills++;
-                    }
-                    break;
+    
+        kills += explodeDirection(xPosition, yPosition, -1, 0, explosionRadius); // Up
+        kills += explodeDirection(xPosition, yPosition, 0, -1, explosionRadius); // Left
+        kills += explodeDirection(xPosition, yPosition, 0, 1, explosionRadius);  // Right
+        kills += explodeDirection(xPosition, yPosition, 1, 0, explosionRadius);  // Down
+    
+        return kills;
+    }
+    
+    private int explodeDirection(int x, int y, int moveX, int moveY, int explosionRadius) {
+        int kills = 0;
+    
+        for (int r = 1; r <= explosionRadius; r++) {
+            int newX = x + r * moveX;
+            int newY = y + r * moveY;
+    
+            if (newX < 0 || newX >= size || newY < 0 || newY >= size) {
+                break;
+            }
+    
+            Box currentBox = getBox(newX, newY);
+    
+            if (currentBox.hasPlayer()) {
+                currentBox.getPlayer().die();
+                if (!currentBox.getPlayer().isAlive()) {
+                    kills++;
                 }
-                else if(getBox(i-r, j).isDestroyable()) {
-                    if(getBox(i-r, j).hasPowerUp()){
-                        PowerUp pu = getBox(i-r, j).getPowerUp();
-                        board[i-r][j] = new Box(i-r, j);
-                        getBox(i-r, j).setPowerUp(pu);
-                    }
-                    else {
-                        board[i-r][j] = new Box(i-r, j);
-                    }
-                    break;
+                break;
+            } else if (currentBox.isDestroyable()) {
+                if (currentBox.hasPowerUp()) {
+                    PowerUp powerUp = currentBox.getPowerUp();
+                    board[newX][newY] = new Box(newX, newY);
+                    getBox(newX, newY).setPowerUp(powerUp);
+                } else {
+                    board[newX][newY] = new Box(newX, newY);
                 }
+                break;
+            } else if(!currentBox.isDestroyable() && currentBox instanceof Block){
+                break;
             }
         }
-        //Left
-        for(int r = explosionRadius; r > 0; r--) {
-            if (j-r > 0){
-                if(getBox(i, j-r).hasPlayer()) {
-                    getBox(i, j-r).getPlayer().die();
-                    if(!getBox(i, j-r).getPlayer().isAlive()){
-                        kills++;
-                    }
-                    break;
-                }
-                else if(getBox(i, j-r).isDestroyable()) {
-                    if(getBox(i, j-r).hasPowerUp()){
-                        PowerUp pu = getBox(i, j-r).getPowerUp();
-                        board[i][j-r] = new Box(i, j-r);
-                        getBox(i, j-r).setPowerUp(pu);
-                    }
-                    else {
-                        board[i][j-r] = new Box(i, j-r);
-                    }
-                    break;
-                }
-            }
-        }
-        //Right
-        for(int r = explosionRadius; r > 0; r--) {
-            if (j+r < size-1){
-                if(getBox(i, j+r).hasPlayer()) {
-                    getBox(i, j+r).getPlayer().die();
-                    if(!getBox(i, j+r).getPlayer().isAlive()){
-                        kills++;
-                    }
-                    break;
-                }
-                else if(getBox(i, j+r).isDestroyable()) {
-                    if(getBox(i, j+r).hasPowerUp()){
-                        PowerUp pu = getBox(i, j+r).getPowerUp();
-                        board[i][j+r] = new Box(i, j+r);
-                        getBox(i, j+r).setPowerUp(pu);
-                    }
-                    else {
-                        board[i][j+r] = new Box(i, j+r);
-                    }
-                    break;
-                }
-            }
-        }
-        //Down
-        for(int r = explosionRadius; r > 0; r--) {
-            if (i+r < size-1){
-                if(getBox(i+r, j).hasPlayer()) {
-                    getBox(i+r, j).getPlayer().die();
-                    if(getBox(i+r, j).getPlayer().isAlive()){
-                        kills++;
-                    }
-                    break;
-                }
-                else if(getBox(i+r, j).isDestroyable()) {
-                    if(getBox(i+r, j).hasPowerUp()){
-                        PowerUp pu = getBox(i+r, j).getPowerUp();
-                        board[i+r][j] = new Box(i+r, j);
-                        getBox(i+r, j).setPowerUp(pu);
-                    }
-                    else {
-                        board[i+r][j] = new Box(i+r, j);
-                    }
-                    break;
-                }
-            }
-        }
+    
         return kills;
     }
 
@@ -282,5 +229,9 @@ public class Board implements Runnable {
             return getBox(i, j).getPuType();
         }
         return "0";
+    }
+
+    public String[][] getBordInstance(){
+        return this.boardInstance;
     }
 }

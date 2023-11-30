@@ -1,9 +1,7 @@
 package edu.eci.arsw.entities;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import edu.eci.arsw.controllers.Board;
+import edu.eci.arsw.model.PlayerInteraction;
 
 public class Player{
 
@@ -20,7 +18,7 @@ public class Player{
     private int explosionRadius;
     private int shields;
     private Board board;
-    private int charachter;
+    private int character;
 
     public Player(int xPosition, int yPosition, String name, boolean isImmortal, int charachter) {
         setXPosition(xPosition);
@@ -28,7 +26,7 @@ public class Player{
         setName(name);;
         setImmortal(isImmortal);
         setAlive(true);
-        setCharachter(charachter);
+        setCharacter(charachter);
 
         kills = 0;
         bombs = 1;
@@ -36,12 +34,12 @@ public class Player{
         shields = 0;
     }
 
-    public int getCharachter() {
-        return charachter;
+    public int getCharacter() {
+        return character;
     }
 
-    public void setCharachter(int charachter) {
-        this.charachter = charachter;
+    public void setCharacter(int charachter) {
+        this.character = charachter;
     }
 
     public int getXPosition() {
@@ -169,17 +167,11 @@ public class Player{
     
     @Override
     public String toString() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String callBack = "{player: {xPosition:" + xPosition + ", yPosition:" + yPosition + ", name:" + name + ", isAlive:" + isAlive
-                + ", isImmortal:" + isImmortal + ", kills:" + kills + ", bombs:" + bombs + ", explosionRadius:"
-                + explosionRadius + ", shields:" + shields + ", charachter:" + charachter + "}}";
-        try {
-            String json = objectMapper.writeValueAsString(callBack);
-            return json;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Error mapping the board";
-        }
+        String callBack = String.format(
+            "{\"xPosition\": %d, \"yPosition\": %d, \"name\": \"%s\", \"isAlive\": %s, \"isImmortal\": %s, \"kills\": %d, \"bombs\": %d, \"explosionRadius\": %d, \"shields\": %d, \"character\": %d}",
+            xPosition, yPosition, name, isAlive, isImmortal, kills, bombs, explosionRadius, shields, character
+        );
+        return callBack;
     }
 
     public void freeBox(int xPosition, int yPosition) {
@@ -200,5 +192,25 @@ public class Player{
     public void explode(int xPosition, int yPosition) {
         int kills = board.explode(xPosition, yPosition, explosionRadius);
         increaseKills(kills);
+    }
+
+    public void action(PlayerInteraction pi){
+        switch (pi.getKey()) {
+            case "w":
+                moveUp();
+                break;
+            case "a":
+                moveLeft();
+                break;
+            case "s":
+                moveDown();
+                break;
+            case "d":
+                moveRight();
+                break;
+            case " ":
+                putBomb();
+                break;
+        }
     }
 }

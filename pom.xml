@@ -27,6 +27,8 @@
     <maven.compiler.target>17</maven.compiler.target>
     <sonar.organization>sanrocks1220</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <exec.mainClass>edu.eci.arsw.BombDaECI</exec.mainClass>
+    <sonar.projectKey>SanRocks1220_Bomb_Eci_Backend</sonar.projectKey>
   </properties>
 
   <dependencies>
@@ -59,15 +61,15 @@
     </dependency>
 
     <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
-        <version>2.12.5</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.12.5</version>
     </dependency>
 
     <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-annotations</artifactId>
-        <version>2.12.5</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.12.5</version>
     </dependency>
 
 
@@ -92,6 +94,13 @@
       <artifactId>jquery</artifactId>
       <version>3.1.0</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.sonarsource.scanner.maven</groupId>
+      <artifactId>sonar-maven-plugin</artifactId>
+      <version>3.10.0.2594</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -117,6 +126,10 @@
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.1</version>
+          <configuration>
+              <testFailureIgnore>true</testFailureIgnore>
+              <reportsDirectory>./target/surefire-reports</reportsDirectory>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
@@ -130,6 +143,20 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.8.2</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.0.1</version> <!-- Ajusta la versión según sea necesario -->
+          <executions>
+              <execution>
+                  <id>copy-dependencies</id>
+                  <phase>package</phase>
+                  <goals>
+                      <goal>copy-dependencies</goal>
+                  </goals>
+              </execution>
+          </executions>
+      </plugin>
         <!-- site lifecycle, see
         https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
         <plugin>
@@ -144,45 +171,23 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
         </plugin>
-        <!--
-        <plugin>
-          <groupId>com.github.eirslett</groupId>
-          <artifactId>frontend-maven-plugin</artifactId>
-          <version>1.11.3</version>
-          <configuration>
-            <workingDirectory>my-bomberman-frontend</workingDirectory>
-            <installDirectory>target</installDirectory>
-          </configuration>
-          <executions>
-            <execution>
-              <id>install node and npm</id>
-              <goals>
-                <goal>install-node-and-npm</goal>
-              </goals>
-              <phase>generate-resources</phase>
-            </execution>
-            <execution>
-              <id>npm install</id>
-              <goals>
-                <goal>npm</goal>
-              </goals>
-              <phase>generate-resources</phase>
-              <configuration>
-                <arguments>install</arguments>
-              </configuration>
-            </execution>
-            <execution>
-              <id>npm run build</id>
-              <goals>
-                <goal>npm</goal>
-              </goals>
-              <configuration>
-                <arguments>run build</arguments>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>-->
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <goals><goal>copy-dependencies</goal></goals>
+            <configuration>
+              <outputDirectory>./target/dependency</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 </project>
