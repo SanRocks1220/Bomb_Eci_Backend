@@ -134,33 +134,33 @@ public class Player{
     }
 
     public void moveRight() {
-        if (board.getBox(getXPosition(), getYPosition()+1).isEmpty()){
+        if (board.getBox(getXPosition(), getYPosition()+1).isEmpty() && getYPosition()+1 < board.getSize()-1){
             freeBox(xPosition, yPosition);
-            yPosition++;
+            yPosition = (yPosition < board.getSize()-2) ? yPosition + 1: yPosition;
             occupyBox();
         }
     }
 
     public void moveLeft() {
-        if (board.getBox(getXPosition(), getYPosition()-1).isEmpty()){
+        if (board.getBox(getXPosition(), getYPosition()-1).isEmpty() && getYPosition() > 1){
             freeBox(xPosition, yPosition);
-            yPosition--;
+            yPosition = (yPosition > 1) ? yPosition - 1: yPosition;
             occupyBox();
         }
     }
 
     public void moveUp() {
-        if (board.getBox(getXPosition()-1, getYPosition()).isEmpty()){
+        if (board.getBox(getXPosition()-1, getYPosition()).isEmpty() && getXPosition() > 1){
             freeBox(xPosition, yPosition);
-            xPosition--;
+            xPosition = (xPosition > 1) ? xPosition - 1: xPosition;
             occupyBox();
         }
     }
 
     public void moveDown() {
-        if (board.getBox(getXPosition()+1, getYPosition()).isEmpty()){
+        if (board.getBox(getXPosition()+1, getYPosition()).isEmpty() && getXPosition()+1 < board.getSize()-1){
             freeBox(xPosition, yPosition);
-            xPosition++;
+            xPosition = (xPosition < board.getSize()-2) ? xPosition + 1: xPosition;
             occupyBox();
         }
     }

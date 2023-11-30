@@ -103,13 +103,22 @@ class PlayerTest {
             player1.moveRight();
         }
 
+        assertEquals(1,player1.getXPosition());
+        assertEquals(2,player1.getYPosition());
+
         for(int i = 0; i < 2; i++){
             player1.moveUp();
         }
 
+        assertEquals(1,player1.getXPosition());
+        assertEquals(2,player1.getYPosition());
+
         for(int i = 0; i < 3; i++){
             player1.moveLeft();
         }
+
+        assertEquals(1,player1.getXPosition());
+        assertEquals(1,player1.getYPosition());
 
         for(int i = 0; i < 1; i++){
             player1.moveDown();
@@ -117,7 +126,16 @@ class PlayerTest {
 
         assertEquals(2,player1.getXPosition());
         assertEquals(1,player1.getYPosition());
+
+        for(int i = 0; i < 4; i++){
+            player1.moveUp();
+        }
+
+        assertEquals(1,player1.getXPosition());
+        assertEquals(1,player1.getYPosition());
+
     }
+
     @Test
     void testFreeBox() {
         Game game = new Game();
