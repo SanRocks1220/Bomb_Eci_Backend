@@ -7,4 +7,9 @@ public class Block extends Box{
         this.destroyable = destroyable;
         canMove = false;
     }
+
+    @Override
+    public Boolean isEmpty() {
+        return false;
+    }
 }

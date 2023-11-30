@@ -1,9 +1,7 @@
 package edu.eci.arsw.entities;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import edu.eci.arsw.controllers.Board;
+import edu.eci.arsw.model.PlayerInteraction;
 
 public class Player{
 
@@ -194,5 +192,25 @@ public class Player{
     public void explode(int xPosition, int yPosition) {
         int kills = board.explode(xPosition, yPosition, explosionRadius);
         increaseKills(kills);
+    }
+
+    public void action(PlayerInteraction pi){
+        switch (pi.getKey()) {
+            case "w":
+                moveUp();
+                break;
+            case "a":
+                moveLeft();
+                break;
+            case "s":
+                moveDown();
+                break;
+            case "d":
+                moveRight();
+                break;
+            case " ":
+                putBomb();
+                break;
+        }
     }
 }

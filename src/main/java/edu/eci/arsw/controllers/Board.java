@@ -19,7 +19,6 @@ public class Board implements Runnable {
     private int bomb = 6;
     private int radius = 8;
     private int shield = 4;
-    private Object lock;
     private String[][] boardInstance = {
             { "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1" },
             { "1", "0", "0", "2", "0", "2", "0", "2", "2", "0", "0", "1" },
@@ -178,6 +177,8 @@ public class Board implements Runnable {
                     board[newX][newY] = new Box(newX, newY);
                 }
                 break;
+            } else if(!currentBox.isDestroyable() && currentBox instanceof Block){
+                break;
             }
         }
     
@@ -228,5 +229,9 @@ public class Board implements Runnable {
             return getBox(i, j).getPuType();
         }
         return "0";
+    }
+
+    public String[][] getBordInstance(){
+        return this.boardInstance;
     }
 }

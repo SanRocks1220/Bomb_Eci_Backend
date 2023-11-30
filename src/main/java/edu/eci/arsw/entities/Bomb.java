@@ -11,10 +11,11 @@ public class Bomb implements Runnable{
     private int yPosition;
 
     public Bomb(int xPosition, int yPosition, Player player) {
-        timer = 3000;
+        timer = 1500;
         owner = player;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
+        run();
     }
 
     @Override
