@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: edu.eci.arsw.entities.BoxTest
+-------------------------------------------------------------------------------
+Tests run: 17, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.712 s <<< FAILURE! - in edu.eci.arsw.entities.BoxTest
+testFreeBox  Time elapsed: 1.508 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "edu.eci.arsw.controllers.Board.explode(int, int, int)" because "this.board" is null
+	at edu.eci.arsw.entities.BoxTest.testFreeBox(BoxTest.java:49)
+

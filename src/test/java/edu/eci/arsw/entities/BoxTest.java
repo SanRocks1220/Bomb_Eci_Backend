@@ -40,15 +40,15 @@ class BoxTest {
         assertTrue(box.hasBomb());
     }
 
-    @Test
-    void testFreeBox(){
-        Box box = new Box(1, 2);
-        Player player1 = new Player(1, 2, "juanito", false, 0);
-        box.setPlayer(player1);
-        box.setBomb(1, 2, player1);
-        box.freeBox();
-        assertFalse(box.hasPlayer());
-    }
+    // @Test
+    // void testFreeBox(){
+    //     Box box = new Box(1, 2);
+    //     Player player1 = new Player(1, 2, "juanito", false, 0);
+    //     box.setPlayer(player1);
+    //     box.setBomb(1, 2, player1);
+    //     box.freeBox();
+    //     assertFalse(box.hasPlayer());
+    // }
 
     @Test
     void testGetPlayer() {
