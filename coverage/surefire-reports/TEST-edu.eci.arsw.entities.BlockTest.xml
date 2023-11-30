@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="edu.eci.arsw.entities.BoxTest" time="0.214" tests="16" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="edu.eci.arsw.entities.BlockTest" time="0" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -58,20 +58,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testIsDestroyable" classname="edu.eci.arsw.entities.BoxTest" time="0"/>
-  <testcase name="testGetX" classname="edu.eci.arsw.entities.BoxTest" time="0"/>
-  <testcase name="testGetY" classname="edu.eci.arsw.entities.BoxTest" time="0"/>
-  <testcase name="testSetX" classname="edu.eci.arsw.entities.BoxTest" time="0"/>
-  <testcase name="testSetY" classname="edu.eci.arsw.entities.BoxTest" time="0"/>
-  <testcase name="testToString" classname="edu.eci.arsw.entities.BoxTest" time="0.205"/>
-  <testcase name="testGetPowerUp" classname="edu.eci.arsw.entities.BoxTest" time="0.002"/>
-  <testcase name="testHasPlayer" classname="edu.eci.arsw.entities.BoxTest" time="0"/>
-  <testcase name="testHasBomb" classname="edu.eci.arsw.entities.BoxTest" time="0.001"/>
-  <testcase name="testHasPowerUp" classname="edu.eci.arsw.entities.BoxTest" time="0.002"/>
-  <testcase name="testSetPlayer" classname="edu.eci.arsw.entities.BoxTest" time="0"/>
-  <testcase name="testGetPlayer" classname="edu.eci.arsw.entities.BoxTest" time="0"/>
-  <testcase name="testGetPuType" classname="edu.eci.arsw.entities.BoxTest" time="0"/>
-  <testcase name="testSetBomb" classname="edu.eci.arsw.entities.BoxTest" time="0"/>
-  <testcase name="testIsEmpty" classname="edu.eci.arsw.entities.BoxTest" time="0.001"/>
-  <testcase name="testSetPowerUp" classname="edu.eci.arsw.entities.BoxTest" time="0"/>
+  <testcase name="testIsEmpty" classname="edu.eci.arsw.entities.BlockTest" time="0"/>
 </testsuite>
