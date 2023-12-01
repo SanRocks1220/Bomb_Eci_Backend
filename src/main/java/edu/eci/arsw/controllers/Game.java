@@ -15,6 +15,7 @@ public class Game {
   public Player player2;
   public Player player3;
   public Player player4;
+  private boolean instance;
 
   public ArrayList<Player> players;
 
@@ -57,5 +58,13 @@ public class Game {
 
   public ArrayList<Player> getPlayers() {
     return this.players;
+  }
+
+  public boolean isInstantiated (){
+    return this.instance;
+  }
+
+  public void setInstantiated(){
+    this.instance = true;
   }
 }
