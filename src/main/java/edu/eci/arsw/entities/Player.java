@@ -177,8 +177,8 @@ public class Player{
     @Override
     public String toString() {
         String callBack = String.format(
-            "{\"xPosition\": %d, \"yPosition\": %d, \"name\": \"%s\", \"isAlive\": %s, \"isImmortal\": %s, \"kills\": %d, \"bombs\": %d, \"explosionRadius\": %d, \"shields\": %d, \"character\": %d, \"id\": %s}",
-            xPosition, yPosition, name, isAlive, isImmortal, kills, bombs, explosionRadius, shields, character, id
+            "{\"xPosition\": %d, \"yPosition\": %d, \"name\": \"%s\", \"isAlive\": %s, \"isImmortal\": %s, \"kills\": %d, \"bombs\": %d, \"explosionRadius\": %d, \"shields\": %d, \"character\": %d}",
+            xPosition, yPosition, name, isAlive, isImmortal, kills, bombs, explosionRadius, shields, character
         );
         return callBack;
     }

@@ -1,11 +1,15 @@
 package edu.eci.arsw;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 import edu.eci.arsw.controllers.Game;
+import edu.eci.arsw.entities.Player;
 import edu.eci.arsw.model.GameMode;
 
 @SpringBootApplication
@@ -53,4 +57,17 @@ public class BombDaECI {
 	public boolean hasInstance(String token){
 		return openGames.containsKey(token); 
 	}
+
+	public Player getPlayer(String token, String Ptoken) {
+		if(openGames.containsKey(token)){
+			return openGames.get(token).getPlayer(Ptoken);
+		}
+        return null;
+    }
+
+	public List<Player> getPlayers(String token) {
+        Collection<Player> playersCollection = openGames.get(token).getPlayers().values();
+		List<Player> playersList = new ArrayList<>(playersCollection);
+		return playersList;
+    }
 }

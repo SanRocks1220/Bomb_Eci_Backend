@@ -30,7 +30,7 @@ public class Game {
       case SINGLE_PLAYER:
         Player player = new Player(1, 1, "Player1", true, P1ch);
         player.setBoard(board);
-
+        player.setId(P1Token);
         players.put(P1Token, player);
         break;
 
@@ -38,7 +38,7 @@ public class Game {
         Player player1 = new Player(1, 1, "Player1", false, P1ch);
         
         player1.setBoard(board);
-
+        player1.setId(P1Token);
         players.put(P1Token, player1);
         
         break;
@@ -50,7 +50,7 @@ public class Game {
   }
 
   public HashMap<String, Player> getPlayers() {
-    return this.players;
+    return players;
   }
 
   public boolean isInstantiated (){
@@ -63,17 +63,21 @@ public class Game {
 
   public void addPlayer(String P1Token, String Pch){
     Integer character = Integer.parseInt(Pch);
+    System.out.println(players.size());
     if(players.size() == 1){
       Player player = new Player(1, 10, "Player2", false, character);
       player.setBoard(board);
+      player.setId(P1Token);
       players.put(P1Token, player);
     } else if(players.size() == 2){
       Player player = new Player(10, 1, "Player3", false, character);
       player.setBoard(board);
+      player.setId(P1Token);
       players.put(P1Token, player);
     } else {
       Player player = new Player(10, 10, "Player4", false, character);
       player.setBoard(board);
+      player.setId(P1Token);
       players.put(P1Token, player);
     }
   }
@@ -100,5 +104,9 @@ public class Game {
         winner = player;
       }
     }
+  }
+
+  public Player getPlayer(String ptoken) {
+    return players.get(ptoken);
   }
 }

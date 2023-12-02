@@ -6,6 +6,8 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.sound.midi.Soundbank;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -36,41 +38,30 @@ public class STOMPMessagesHandler {
     @MessageMapping("/create-game.{userId}")
 	public void handleGameInstance(String gameId, @DestinationVariable String userId) throws Exception {
 		// Se verifica si ya se instancio el tablero de juego
+		System.out.println(gameId);
 		if(!handler.hasInstance(gameId)){
-			handler.createGame(gameId, 1);
+			handler.createGame(gameId, 1, userId, "" + usersLogged);
 		}
 		// Se valida que se registren 4 jugadores
 		if(usersLogged < 4){
 			// Se inicializa al jugador
-			handler.getGameInstance(gameId).getPlayers().get(usersLogged).setId(userId);
-			handler.getGameInstance(gameId).getPlayers().get(usersLogged).setCharacter(usersLogged);
+			handler.addPlayer(gameId, userId, "" + usersLogged);
 			// Se define el personaje o sprite
 			msgt.convertAndSend("/user/queue/set-character." + userId, usersLogged);
 			// Se aumenta el número de jugadores logeados a un tablero hasta un maximo de 4
 			usersLogged++;
 		}else{
 			// Se retorna la instancia de tablero una vez existen 4 usuarios en un mismo juego
-			String board = handler.getGameInstance(userId).getBoard().toString();
+			String board = handler.getBoard(gameId);
 			msgt.convertAndSend("/user/queue/create-game", board);
 		}
 	}
 
 	@MessageMapping("/get-board-instance.{userId}")
 	public void handleBoardInstanceInGame(String gameId, @DestinationVariable String userId) throws Exception {
-		// String[][] response1 = gameInstance.getBoard().getBordInstance();
-		// for(int i = 0 ; i < 12 ; ++i){
-		// 	System.out.print("" + i + " :");
-		//    for(int j = 0 ; j < 12 ; ++j){
-		// 	  System.out.print(" " + response1[i][j]);
-		//    }
-		// 	System.out.print("\n");
-		//  }
-		// int x = gameInstance.getPlayers().get(0).getXPosition();
-		// int y = gameInstance.getPlayers().get(0).getYPosition();
-		// System.out.print(x + ", " + y);
 		if (handler.hasInstance(gameId)){
-			String response = handler.getGameInstance(gameId).getBoard().toString();
-			msgt.convertAndSend("/user/queue/get-board-instance." + userId, response);
+			String board = handler.getBoard(gameId);
+			msgt.convertAndSend("/user/queue/get-board-instance." + userId, board);
 		}
 	}
 
@@ -78,64 +69,46 @@ public class STOMPMessagesHandler {
 	public void handlePlayersInstance(String gameId, @DestinationVariable String userId) throws Exception {
 		//System.out.println("A client wants to get a player instance!");
 		this.players = new ArrayList<>();
-		// Genera una lista con los jugadores excluyendo al jugador que la solicita
-		for (Map.Entry<String, Player> entry : gamePlayers.entrySet()) {
-			Player p = entry.getValue();
-			if (!p.getName().contains(userId)) {
-				players.add(p.toString());
+		if(handler.hasInstance(gameId)){
+			System.out.println(handler.getPlayers(gameId));
+			// Genera una lista con los jugadores excluyendo al jugador que la solicita
+			for (Player p: handler.getPlayers(gameId)) {
+				if (!p.getId().equals(userId)) {
+					players.add(p.toString());
+				}
 			}
-		}
-		// Mapea en un JSON que luego entrega
-		ObjectMapper objectMapper = new ObjectMapper();
-		try {
-			String response = objectMapper.writeValueAsString(players);
-			msgt.convertAndSend("/user/queue/get-players-instance." + userId, response);
-		} catch (Exception e) {
-			e.printStackTrace();
+			// Mapea en un JSON que luego entrega
+			ObjectMapper objectMapper = new ObjectMapper();
+			try {
+				String response = objectMapper.writeValueAsString(players);
+				msgt.convertAndSend("/user/queue/get-players." + userId, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
-	@MessageMapping("/get-player-instance.{userId}")
-	public void handlePlayerInstance(String message, @DestinationVariable String userId) throws Exception {
+	@MessageMapping("/get-my-player.{userId}")
+	public void handlePlayerInstance(String gameId, @DestinationVariable String userId) throws Exception {
 		//System.out.println("A client wants to get a player instance!");
-		// Genera una lista con los jugadores excluyendo al jugador que la solicita
-		if(!gameInstance.isInstantiated()){
-			gameInstance.orchest(GameMode.MULTI_PLAYER);
-		}
-		for (Player p : gameInstance.getPlayers()){
-			if(p.getName().contains(userId)){
-				String response = p.toString();
-				msgt.convertAndSend("/user/queue/get-player-instance." + userId, response);
-				break;
-			}
-		}
-	}	
+		System.out.println(gameId);
+		Player p = handler.getPlayer(gameId, userId);
+		String response = p.toString();
+		msgt.convertAndSend("/user/queue/get-player-instance." + userId, response);
+	}
     
 	@MessageMapping("/player-interaction.{userId}")
 	public void handlePlayerInteraction(@Payload String key, @Payload String gameId, @DestinationVariable String userId) throws Exception {
+		System.out.println(gameId  + ", " + gameId.replaceAll("\\\"", ""));
+		System.out.println(key  + ", " + key.replaceAll("\\\"", ""));
 		// Busca al jugador que interactuo para asignarle la interaccion
-		Player p = handler.get
-		for (Player p : gameInstance.getPlayers()){
-			if(p.getName().contains(userId)){
-				// Ejecuta la acción
-				p.action(pi.getKey());
-				// Retorna el nuevo estado del jugador
-				String player = p.toString();
-				msgt.convertAndSend("/user/queue/get-player-instance." + userId, player);
-				// Retorna el nuevo estado del tablero
-				String board = gameInstance.getBoard().toString();
-				msgt.convertAndSend("/user/queue/get-board-instance." + userId, board);
-				break;
-			}
-		}
-	}
-
-	@MessageMapping("/get-chosen-character.{userId}")
-	public void handleGetChosenCharacter(String message, @DestinationVariable String userId) throws Exception {
-		//System.out.println("A client wants to get a player instance!");
-		if(tokens.contains(userId)){
-			String response = "" + chosenPlayers.get(userId);
-			msgt.convertAndSend("/user/queue/get-chosen-character." + userId, response);
-		}
+		handler.action(gameId.replaceAll("\\\"", ""), userId, key.replaceAll("\\\"", ""));
+		// Retorna el nuevo estado del jugador
+		Player p = handler.getPlayer(gameId, userId);
+		String player = p.toString();
+		msgt.convertAndSend("/user/queue/get-my-player." + userId, player);
+		// Retorna el nuevo estado del tablero
+		String board = handler.getBoard(gameId);
+		msgt.convertAndSend("/user/queue/get-board-instance." + userId, board);
 	}
 }
