@@ -25,8 +25,8 @@ public class BombDaECI {
         return object;
     }
 
-	public void createGame(String token, int mode){
-		Game game = new Game(mode);
+	public void createGame(String token, int mode, String P1Token, String P1ch){
+		Game game = new Game(mode, P1Token, P1ch);
 		openGames.put(token, game);
 	}
 
@@ -34,11 +34,23 @@ public class BombDaECI {
 		return openGames.get(token);
 	}
 
-	public boolean hasInstance(String token) {
-		return openGames.containsKey(token);
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(BombDaECI.class, args);
+	}
+
+	public void action(String token, String player, String action){
+		openGames.get(token).action(player, action);
+	}
+
+	public void addPlayer(String token, String Ptoken, String Pch) {
+		openGames.get(token).addPlayer(Ptoken, Pch);
+	}
+
+	public String getBoard(String token){
+		return openGames.get(token).getBoard();
+	}
+
+	public boolean hasInstance(String token){
+		return openGames.containsKey(token); 
 	}
 }

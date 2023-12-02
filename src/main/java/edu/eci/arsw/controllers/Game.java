@@ -11,57 +11,45 @@ public class Game {
   public GameMode gameMode;
 
   public Board board;
-
-  public Player player1;
-  public Player player2;
-  public Player player3;
-  public Player player4;
   private boolean instance;
+  private boolean finished;
   private Player winner;
 
-  public HashMap<Integer, Player> players;
+  public HashMap<String, Player> players;
 
-  public Game(int mode) {
+  public Game(int mode, String P1Token, String P1ch) {
     GameMode gameMode = mode == 0? GameMode.SINGLE_PLAYER : GameMode.MULTI_PLAYER;
-    orchest(gameMode);
+    int character = Integer.parseInt(P1ch);
+    orchest(gameMode, P1Token, character);
   }
 
-  public void orchest(GameMode gameMode) {
+  public void orchest(GameMode gameMode, String P1Token, int P1ch) {
     board = new Board();
     players = new HashMap<>();
     switch (gameMode) {
       case SINGLE_PLAYER:
-        player1 = new Player(1, 1, "Player1", true, 0);
-        player1.setBoard(board);
+        Player player = new Player(1, 1, "Player1", true, P1ch);
+        player.setBoard(board);
 
-        players.put(1, player1);
+        players.put(P1Token, player);
         break;
 
       case MULTI_PLAYER:
-        player1 = new Player(1, 1, "Player1", false, 0);
-        player2 = new Player(1, 10, "Player2", false, 0);
-        player3 = new Player(10, 1, "Player3", false, 0);
-        player4 = new Player(10, 10, "Player4", false, 0);
-
+        Player player1 = new Player(1, 1, "Player1", false, P1ch);
+        
         player1.setBoard(board);
-        player2.setBoard(board);
-        player3.setBoard(board);
-        player4.setBoard(board);
 
-        players.put(1, player1);
-        players.put(2, player2);
-        players.put(3, player3);
-        players.put(4, player4);
+        players.put(P1Token, player1);
         
         break;
     }
   }
 
-  public Board getBoard() {
-    return this.board;
+  public String getBoard() {
+    return this.board.toString();
   }
 
-  public HashMap<Integer, Player> getPlayers() {
+  public HashMap<String, Player> getPlayers() {
     return this.players;
   }
 
@@ -71,5 +59,46 @@ public class Game {
 
   public void setInstantiated(){
     this.instance = true;
+  }
+
+  public void addPlayer(String P1Token, String Pch){
+    Integer character = Integer.parseInt(Pch);
+    if(players.size() == 1){
+      Player player = new Player(1, 10, "Player2", false, character);
+      player.setBoard(board);
+      players.put(P1Token, player);
+    } else if(players.size() == 2){
+      Player player = new Player(10, 1, "Player3", false, character);
+      player.setBoard(board);
+      players.put(P1Token, player);
+    } else {
+      Player player = new Player(10, 10, "Player4", false, character);
+      player.setBoard(board);
+      players.put(P1Token, player);
+    }
+  }
+
+  public void action(String player, String action) {
+    players.get(player).action(action);
+  }
+
+  public boolean isfinished() {
+    int playersAlive = 0;
+    for(Player player: players.values()){
+      playersAlive = player.isAlive() ? playersAlive+1 : playersAlive;
+    }
+    finished = playersAlive>1? false : true;
+    if(finished){
+      whoIstheWinner();
+    }
+    return finished;
+  }
+
+  private void whoIstheWinner() {
+    for(Player player: players.values()){
+      if(player.isAlive()){
+        winner = player;
+      }
+    }
   }
 }
