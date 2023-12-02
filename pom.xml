@@ -18,7 +18,7 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.5.0</version>
-    <relativePath /> <!-- lookup parent from repository -->
+    <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
   <properties>
@@ -63,20 +63,20 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
-      <version>2.12.5</version>
+      <version>2.15.3</version>
     </dependency>
 
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
-      <version>2.12.5</version>
+      <version>2.15.3</version>
     </dependency>
 
 
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>sockjs-client</artifactId>
-      <version>1.0.2</version>
+      <version>1.5.1</version>
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
@@ -87,12 +87,12 @@
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>bootstrap</artifactId>
-      <version>3.3.7</version>
+      <version>4.6.2</version>
     </dependency>
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>jquery</artifactId>
-      <version>3.1.0</version>
+      <version>3.7.1</version>
     </dependency>
 
     <dependency>
@@ -100,6 +100,8 @@
       <artifactId>sonar-maven-plugin</artifactId>
       <version>3.10.0.2594</version>
     </dependency>
+
+    
 
   </dependencies>
 
@@ -188,6 +190,32 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.7</version>
+          <executions>
+              <execution>
+                  <id>default-prepare-agent</id>
+                  <goals>
+                      <goal>prepare-agent</goal>
+                  </goals>
+              </execution>
+              <!-- attached to Maven test phase -->
+              <execution>
+                  <id>default-report</id>
+                  <phase>test</phase>
+                  <goals>
+                      <goal>report</goal>
+                  </goals>
+                  <configuration>
+                      <outputDirectory>./coverage/jacoco</outputDirectory>
+                  </configuration>
+              </execution>
+          </executions>
+      </plugin>
+
     </plugins>
   </build>
 </project>

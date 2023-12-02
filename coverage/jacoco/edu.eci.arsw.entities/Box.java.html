@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Box.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bombeci</a> &gt; <a href="index.source.html" class="el_package">edu.eci.arsw.entities</a> &gt; <span class="el_source">Box.java</span></div><h1>Box.java</h1><pre class="source lang-java linenums">package edu.eci.arsw.entities;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class Box {
+
+    protected int x;
+    protected int y;
+    protected boolean hasPowerUp;
+    protected PowerUp ownPowerUp;   
+    private boolean hasPlayer;
+    private Player ownPlayer;
+    private boolean hasBomb;
+    private Bomb ownBomb;
+    private int xPositionBomb;
+    private int yPositionBomb;
+    private Player bombOwner;
+    protected boolean canMove;
+    protected boolean destroyable;
+
+<span class="fc" id="L22">    public Box(int x, int y) {</span>
+<span class="fc" id="L23">        this.x = x;</span>
+<span class="fc" id="L24">        this.y = y;</span>
+<span class="fc" id="L25">        canMove = true;</span>
+<span class="fc" id="L26">        destroyable = false;</span>
+<span class="fc" id="L27">    }</span>
+
+    public PowerUp getPowerUp() {
+<span class="fc" id="L30">        return ownPowerUp;</span>
+    }
+
+    public void setPowerUp(PowerUp pu) {
+<span class="fc" id="L34">        hasPowerUp = true;</span>
+<span class="fc" id="L35">        ownPowerUp = pu;</span>
+<span class="fc" id="L36">    }</span>
+
+    public void setPlayer(Player player) {
+<span class="fc" id="L39">        canMove = false;</span>
+<span class="fc" id="L40">        hasPlayer = true;</span>
+<span class="fc" id="L41">        ownPlayer = player;</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        if(hasPowerUp){</span>
+<span class="nc" id="L43">            ownPowerUp.applyEffect(player);</span>
+<span class="nc" id="L44">            hasPowerUp = false;</span>
+        }
+<span class="fc" id="L46">    }</span>
+
+    public void setBomb(int xPosition, int yPosition, Player owner) {
+<span class="fc" id="L49">        hasBomb = true;</span>
+<span class="fc" id="L50">        xPositionBomb = xPosition;</span>
+<span class="fc" id="L51">        yPositionBomb = yPosition;</span>
+<span class="fc" id="L52">        bombOwner = owner;</span>
+<span class="fc" id="L53">    }</span>
+
+    public void freeBox() {
+<span class="pc bpc" id="L56" title="2 of 4 branches missed.">        if(hasPlayer &amp;&amp; hasBomb){</span>
+<span class="nc" id="L57">            hasPlayer = false;</span>
+<span class="nc" id="L58">            ownBomb = new Bomb(xPositionBomb, yPositionBomb, bombOwner);</span>
+        }
+        else {
+<span class="fc" id="L61">            canMove = true;</span>
+<span class="fc" id="L62">            hasPlayer = false;</span>
+<span class="fc" id="L63">            hasBomb = false;</span>
+        }
+        
+<span class="fc" id="L66">    }</span>
+
+    public int getX() {
+<span class="fc" id="L69">        return x;</span>
+    }
+
+    public void setX(int x) {
+<span class="fc" id="L73">        this.x = x;</span>
+<span class="fc" id="L74">    }</span>
+
+    public int getY() {
+<span class="fc" id="L77">        return y;</span>
+    }
+
+    public void setY(int y) {
+<span class="fc" id="L81">        this.y = y;</span>
+<span class="fc" id="L82">    }</span>
+
+    public Boolean isEmpty() {
+<span class="fc" id="L85">        return canMove;</span>
+    }
+
+    public Player getPlayer() {
+<span class="fc" id="L89">        return ownPlayer;</span>
+    }
+
+    public boolean hasPlayer() {
+<span class="fc" id="L93">        return hasPlayer;</span>
+    }
+
+    public boolean hasBomb(){
+<span class="fc" id="L97">        return hasBomb;</span>
+    }
+
+    public boolean hasPowerUp(){
+<span class="fc" id="L101">        return hasPowerUp;</span>
+    }
+
+    public boolean isDestroyable() {
+<span class="fc" id="L105">        return destroyable;</span>
+    }
+
+    @Override
+    public String toString(){
+        try{
+<span class="fc" id="L111">            ObjectMapper objectMapper = new ObjectMapper();</span>
+<span class="fc" id="L112">            return objectMapper.writeValueAsString(this);</span>
+<span class="nc" id="L113">        }catch(JsonProcessingException e){</span>
+<span class="nc" id="L114">            e.printStackTrace();</span>
+<span class="nc" id="L115">            return &quot;&quot;;</span>
+        }
+    }
+
+    public String getPuType() {
+<span class="fc" id="L120">        return ownPowerUp.getType() + &quot;&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
