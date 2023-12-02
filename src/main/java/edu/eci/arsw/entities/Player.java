@@ -194,8 +194,8 @@ public class Player{
         increaseKills(kills);
     }
 
-    public void action(PlayerInteraction pi){
-        switch (pi.getKey()) {
+    public void action(String key){
+        switch (key) {
             case "w":
                 moveUp();
                 break;
