@@ -234,4 +234,8 @@ public class Board implements Runnable {
     public String[][] getBordInstance(){
         return this.boardInstance;
     }
+
+    public int getSize() {
+        return size;
+    }
 }

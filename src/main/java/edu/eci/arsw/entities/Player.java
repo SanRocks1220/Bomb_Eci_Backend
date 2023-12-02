@@ -19,6 +19,7 @@ public class Player{
     private int shields;
     private Board board;
     private int character;
+    private String id;
 
     public Player(int xPosition, int yPosition, String name, boolean isImmortal, int charachter) {
         setXPosition(xPosition);
@@ -122,6 +123,14 @@ public class Player{
         shields = (shields<1)?shields+1:shields;
     }
 
+    public void setId(String newId){
+        this.id = newId;
+    }
+
+    public String getId(){
+        return this.id;
+    }
+
     public void die() {
         if(!isImmortal){
             if(shields>0){
@@ -134,33 +143,33 @@ public class Player{
     }
 
     public void moveRight() {
-        if (board.getBox(getXPosition(), getYPosition()+1).isEmpty()){
+        if (board.getBox(getXPosition(), getYPosition()+1).isEmpty() && getYPosition()+1 < board.getSize()-1){
             freeBox(xPosition, yPosition);
-            yPosition++;
+            yPosition = (yPosition < board.getSize()-2) ? yPosition + 1: yPosition;
             occupyBox();
         }
     }
 
     public void moveLeft() {
-        if (board.getBox(getXPosition(), getYPosition()-1).isEmpty()){
+        if (board.getBox(getXPosition(), getYPosition()-1).isEmpty() && getYPosition() > 1){
             freeBox(xPosition, yPosition);
-            yPosition--;
+            yPosition = (yPosition > 1) ? yPosition - 1: yPosition;
             occupyBox();
         }
     }
 
     public void moveUp() {
-        if (board.getBox(getXPosition()-1, getYPosition()).isEmpty()){
+        if (board.getBox(getXPosition()-1, getYPosition()).isEmpty() && getXPosition() > 1){
             freeBox(xPosition, yPosition);
-            xPosition--;
+            xPosition = (xPosition > 1) ? xPosition - 1: xPosition;
             occupyBox();
         }
     }
 
     public void moveDown() {
-        if (board.getBox(getXPosition()+1, getYPosition()).isEmpty()){
+        if (board.getBox(getXPosition()+1, getYPosition()).isEmpty() && getXPosition()+1 < board.getSize()-1){
             freeBox(xPosition, yPosition);
-            xPosition++;
+            xPosition = (xPosition < board.getSize()-2) ? xPosition + 1: xPosition;
             occupyBox();
         }
     }
@@ -194,8 +203,8 @@ public class Player{
         increaseKills(kills);
     }
 
-    public void action(PlayerInteraction pi){
-        switch (pi.getKey()) {
+    public void action(String key){
+        switch (key) {
             case "w":
                 moveUp();
                 break;
