@@ -19,6 +19,7 @@ public class Player{
     private int shields;
     private Board board;
     private int character;
+    private String id;
 
     public Player(int xPosition, int yPosition, String name, boolean isImmortal, int charachter) {
         setXPosition(xPosition);
@@ -122,6 +123,14 @@ public class Player{
         shields = (shields<1)?shields+1:shields;
     }
 
+    public void setId(String newId){
+        this.id = newId;
+    }
+
+    public String getId(){
+        return this.id;
+    }
+
     public void die() {
         if(!isImmortal){
             if(shields>0){
@@ -194,8 +203,8 @@ public class Player{
         increaseKills(kills);
     }
 
-    public void action(PlayerInteraction pi){
-        switch (pi.getKey()) {
+    public void action(String key){
+        switch (key) {
             case "w":
                 moveUp();
                 break;

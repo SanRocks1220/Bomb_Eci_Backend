@@ -11,7 +11,7 @@ public class Bomb implements Runnable{
     private int yPosition;
 
     public Bomb(int xPosition, int yPosition, Player player) {
-        timer = 5000;
+        timer = 3000;
         owner = player;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
