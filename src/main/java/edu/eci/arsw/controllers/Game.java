@@ -86,7 +86,13 @@ public class Game {
   }
 
   public void action(String player, String action) {
-    players.get(player).action(action);
+    isfinished();
+    if(players.get(player).isAlive()){
+      players.get(player).action(action);
+    } else {
+      System.out.println("Me Mori");
+      System.out.println(players.get(player).getName());
+    }
   }
 
   public boolean isfinished() {
@@ -107,6 +113,10 @@ public class Game {
         winner = player;
       }
     }
+  }
+
+  public Player getWinner() {
+    return winner;
   }
 
   public Player getPlayer(String ptoken) {

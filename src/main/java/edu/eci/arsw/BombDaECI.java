@@ -43,7 +43,12 @@ public class BombDaECI {
 	}
 
 	public void action(String token, String player, String action){
-		openGames.get(token).action(player, action);
+		if(!openGames.get(token).isfinished()){
+			openGames.get(token).action(player, action);
+		} else {
+			Player winner = openGames.get(token).getWinner();
+		}
+		
 	}
 
 	public void addPlayer(String token, String Ptoken, String Pch) {
