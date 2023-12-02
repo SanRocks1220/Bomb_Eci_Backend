@@ -38,7 +38,6 @@ public class STOMPMessagesHandler {
     @MessageMapping("/create-game.{userId}")
 	public void handleGameInstance(String gameId, @DestinationVariable String userId) throws Exception {
 		// Se verifica si ya se instancio el tablero de juego
-		System.out.println(gameId);
 		if(!handler.hasInstance(gameId)){
 			handler.createGame(gameId, 1, userId, "" + usersLogged);
 		}
@@ -70,7 +69,6 @@ public class STOMPMessagesHandler {
 		//System.out.println("A client wants to get a player instance!");
 		this.players = new ArrayList<>();
 		if(handler.hasInstance(gameId)){
-			System.out.println(handler.getPlayers(gameId));
 			// Genera una lista con los jugadores excluyendo al jugador que la solicita
 			for (Player p: handler.getPlayers(gameId)) {
 				if (!p.getId().equals(userId)) {
@@ -91,18 +89,17 @@ public class STOMPMessagesHandler {
 	@MessageMapping("/get-my-player.{userId}")
 	public void handlePlayerInstance(String gameId, @DestinationVariable String userId) throws Exception {
 		//System.out.println("A client wants to get a player instance!");
-		System.out.println(gameId);
 		Player p = handler.getPlayer(gameId, userId);
 		String response = p.toString();
 		msgt.convertAndSend("/user/queue/get-player-instance." + userId, response);
 	}
     
 	@MessageMapping("/player-interaction.{userId}")
-	public void handlePlayerInteraction(@Payload String key, @Payload String gameId, @DestinationVariable String userId) throws Exception {
-		System.out.println(gameId  + ", " + gameId.replaceAll("\\\"", ""));
-		System.out.println(key  + ", " + key.replaceAll("\\\"", ""));
+	public void handlePlayerInteraction(@Payload PlayerInteraction msg, @DestinationVariable String userId) throws Exception {
+		String key = msg.getKey();
+		String gameId = msg.getGameId();
 		// Busca al jugador que interactuo para asignarle la interaccion
-		handler.action(gameId.replaceAll("\\\"", ""), userId, key.replaceAll("\\\"", ""));
+		handler.action(gameId, userId, key);
 		// Retorna el nuevo estado del jugador
 		Player p = handler.getPlayer(gameId, userId);
 		String player = p.toString();

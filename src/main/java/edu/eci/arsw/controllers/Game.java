@@ -40,6 +40,7 @@ public class Game {
         player1.setBoard(board);
         player1.setId(P1Token);
         players.put(P1Token, player1);
+        System.out.println(P1Token);
         
         break;
     }
@@ -62,23 +63,25 @@ public class Game {
   }
 
   public void addPlayer(String P1Token, String Pch){
-    Integer character = Integer.parseInt(Pch);
-    System.out.println(players.size());
-    if(players.size() == 1){
-      Player player = new Player(1, 10, "Player2", false, character);
-      player.setBoard(board);
-      player.setId(P1Token);
-      players.put(P1Token, player);
-    } else if(players.size() == 2){
-      Player player = new Player(10, 1, "Player3", false, character);
-      player.setBoard(board);
-      player.setId(P1Token);
-      players.put(P1Token, player);
-    } else {
-      Player player = new Player(10, 10, "Player4", false, character);
-      player.setBoard(board);
-      player.setId(P1Token);
-      players.put(P1Token, player);
+    if(!players.containsKey(P1Token)){
+      Integer character = Integer.parseInt(Pch);
+      System.out.println(P1Token);
+      if(players.size() == 1){
+        Player player = new Player(1, 10, "Player2", false, character);
+        player.setBoard(board);
+        player.setId(P1Token);
+        players.put(P1Token, player);
+      } else if(players.size() == 2){
+        Player player = new Player(10, 1, "Player3", false, character);
+        player.setBoard(board);
+        player.setId(P1Token);
+        players.put(P1Token, player);
+      } else {
+        Player player = new Player(10, 10, "Player4", false, character);
+        player.setBoard(board);
+        player.setId(P1Token);
+        players.put(P1Token, player);
+      }
     }
   }
 

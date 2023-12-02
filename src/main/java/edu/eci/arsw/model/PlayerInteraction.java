@@ -1,14 +1,14 @@
 package edu.eci.arsw.model;
 
 public class PlayerInteraction {
-    String key, player;
+    String key, gameId;
 
     public PlayerInteraction() {
     }
 
-    public PlayerInteraction(String key, String player) {
+    public PlayerInteraction(String key, String gameId) {
         this.key = key;
-        this.player = player;
+        this.gameId = gameId;
     }
 
     public String getKey() {
@@ -19,16 +19,16 @@ public class PlayerInteraction {
         this.key = key;
     }
 
-    public String getPlayer() {
-        return this.player;
+    public String getGameId() {
+        return this.gameId;
     }
 
-    public void setPlayer(String player) {
-        this.player = player;
+    public void setgameId(String gameId) {
+        this.gameId = gameId;
     }
 
     @Override
     public String toString() {
-        return "PlayerInteraction{" + "key=" + key + ", player=" + player + '}';
+        return "PlayerInteraction{" + "key=" + key + ", player=" + gameId + '}';
     }
 }
