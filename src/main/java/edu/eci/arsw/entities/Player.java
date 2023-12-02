@@ -19,6 +19,7 @@ public class Player{
     private int shields;
     private Board board;
     private int character;
+    private String id;
 
     public Player(int xPosition, int yPosition, String name, boolean isImmortal, int charachter) {
         setXPosition(xPosition);
@@ -122,6 +123,14 @@ public class Player{
         shields = (shields<1)?shields+1:shields;
     }
 
+    public void setId(String newId){
+        this.id = newId;
+    }
+
+    public String getId(){
+        return this.id;
+    }
+
     public void die() {
         if(!isImmortal){
             if(shields>0){
@@ -168,8 +177,8 @@ public class Player{
     @Override
     public String toString() {
         String callBack = String.format(
-            "{\"xPosition\": %d, \"yPosition\": %d, \"name\": \"%s\", \"isAlive\": %s, \"isImmortal\": %s, \"kills\": %d, \"bombs\": %d, \"explosionRadius\": %d, \"shields\": %d, \"character\": %d}",
-            xPosition, yPosition, name, isAlive, isImmortal, kills, bombs, explosionRadius, shields, character
+            "{\"xPosition\": %d, \"yPosition\": %d, \"name\": \"%s\", \"isAlive\": %s, \"isImmortal\": %s, \"kills\": %d, \"bombs\": %d, \"explosionRadius\": %d, \"shields\": %d, \"character\": %d, \"id\": %s}",
+            xPosition, yPosition, name, isAlive, isImmortal, kills, bombs, explosionRadius, shields, character, id
         );
         return callBack;
     }

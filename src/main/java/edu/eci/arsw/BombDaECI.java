@@ -13,7 +13,7 @@ import edu.eci.arsw.model.GameMode;
 public class BombDaECI {
 	
 	private static BombDaECI object;
-	private HashMap<Integer, Game> openGames = new HashMap<>();
+	private HashMap<String, Game> openGames = new HashMap<>();
 
 	public BombDaECI(){
     }
@@ -25,9 +25,17 @@ public class BombDaECI {
         return object;
     }
 
-	public void createGame(int token, int mode){
+	public void createGame(String token, int mode){
 		Game game = new Game(mode);
 		openGames.put(token, game);
+	}
+
+	public Game getGameInstance(String token){
+		return openGames.get(token);
+	}
+
+	public boolean hasInstance(String token) {
+		return openGames.containsKey(token);
 	}
 
 	public static void main(String[] args) {
